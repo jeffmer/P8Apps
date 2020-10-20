@@ -1,7 +1,7 @@
 {
-    "name": "BangleApps",
-    "short_name": "BangleApps",
-    "description": "Banglejs App Store",
+    "name": "P8Apps",
+    "short_name": "P8Apps",
+    "description": "Experimental P8 App Loader",
     "icons": [
         {
             "src": "img/android-chrome-192x192.png",

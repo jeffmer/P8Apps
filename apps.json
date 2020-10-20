@@ -35,7 +35,8 @@
     "tags": "tool,system",
     "storage": [
       {"name":"setting.app.js","url":"setting.app.js"},
-      {"name":"menu.js","url":"menu.js"}
+      {"name":"menu.js","url":"menu.js"},
+      {"name":"setting.img","url":"setting-icon.js","evaluate":true }
     ],
     "sortorder" : -2
   },

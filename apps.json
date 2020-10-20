@@ -1,0 +1,61 @@
+[
+  { "id": "boot",
+    "name": "Bootloader",
+    "tags": "tool,system",
+    "type":"bootloader",
+    "icon": "bootloader.png",
+    "version":"0.01",
+    "description": "This loads the P8 App execution evironment - boot, lcd, touch & accel",
+    "storage": [
+      {"name":".boot0","url":"boot0.js"},
+      {"name":"lcd.js","url":"lcd.js"},
+      {"name":"touch.js","url":"touch.js"},
+      {"name":"accel.js","url":"accel.js"}
+    ],
+    "sortorder" : -10
+  },
+  { "id": "launch",
+    "name": "Launcher (Default)",
+    "shortName":"Launcher",
+    "icon": "launch.png",
+    "version":"0.01",
+    "description": "This version supports maximum of 6 apps.",
+    "tags": "tool,system,launcher",
+    "type":"launch",
+    "storage": [
+      {"name":"launch.js","url":"launch.js"}
+    ],
+    "sortorder" : -10
+  },
+  { "id": "setting",
+    "name": "Setting",
+    "icon": "setting.png",
+    "version":"0.01",
+    "description": "A menu for setting up Bangle.js",
+    "tags": "tool,system",
+    "readme": "README.md",
+    "storage": [
+      {"name":"setting.app.js","url":"setting.app.js"},
+      {"name":"setting.img","url":"setting-icon.js","evaluate":true}
+    ],
+    "sortorder" : -2
+  },
+  { "id": "clock",
+    "name": "Clock",
+    "icon": "clock.png",
+    "version":"0.06",
+    "description": "Clock with multiple faces - Big, Analogue, Digital, Text.\n Switch between faces with BT1 & BTN3",
+    "readme": "README.md",
+    "tags": "clock",
+    "type":"clock",
+    "allow_emulator":false,
+    "storage": [
+      {"name":"clock.app.js","url":"clock.app.js"},
+      {"name":"big.face.js","url":"big.face.js"},
+      {"name":"ana.face.js","url":"ana.face.js"},
+      {"name":"digi.face.js","url":"digi.face.js"},
+      {"name":"txt.face.js","url":"txt.face.js"},
+      {"name":"clock.img","url":"clock-icon.js","evaluate":true}
+    ]
+  },
+]

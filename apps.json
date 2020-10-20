@@ -35,7 +35,7 @@
     "tags": "tool,system",
     "storage": [
       {"name":"setting.app.js","url":"setting.app.js"},
-      {"name":"setting.img","url":"setting.img"}
+      {"name":"menu.js","url":"menu.js"}
     ],
     "sortorder" : -2
   },
@@ -52,8 +52,7 @@
       {"name":"big.face.js","url":"big.face.js"},
       {"name":"ana.face.js","url":"ana.face.js"},
       {"name":"digi.face.js","url":"digi.face.js"},
-      {"name":"txt.face.js","url":"txt.face.js"},
-      {"name":"clock.img","url":"clock.img","evaluate":true}
+      {"name":"txt.face.js","url":"txt.face.js"}
     ]
   }
 ]

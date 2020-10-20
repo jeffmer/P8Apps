@@ -55,5 +55,5 @@
       {"name":"txt.face.js","url":"txt.face.js"},
       {"name":"clock.img","url":"clock-icon.js","evaluate":true}
     ]
-  },
+  }
 ]

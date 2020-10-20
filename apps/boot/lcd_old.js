@@ -10,9 +10,17 @@ function ST7789() {
     var XOFF = 0;
     var YOFF = 0;
     var INVERSE = 1;
-    var cmd = lcd_spi_unbuf.command;
 
-    function dispinit(rst,fn) {
+    function dispinit(spi, dc, ce, rst,fn) {
+        function cmd(c,d) {
+            dc.reset();
+            spi.write(c, ce);
+            if (d!==undefined) {
+                dc.set();
+                spi.write(d, ce);
+            }
+        }
+
         if (rst) {
             digitalPulse(rst,0,10);
         } else {
@@ -63,7 +71,9 @@ function ST7789() {
             if (fn) fn();
           }, 50);
           }, 120);
+          return cmd;
     }
+
 
     function connect(options , callback) {
         var spi=options.spi, dc=options.dc, ce=options.cs, rst=options.rst;
@@ -75,9 +85,9 @@ function ST7789() {
             colstart: XOFF,
             rowstart: YOFF
         });
-        g.lcd_sleep = function(){cmd(0x10);};
-        g.lcd_wake = function(){cmd(0x11);};
-        g.command = dispinit(rst, ()=>{g.clear().setFont("6x8",2).drawString("P8 Expruino",50,100);});
+        g.lcd_sleep = function(){dc.reset(); spi.write(0x10,ce);};
+        g.lcd_wake = function(){dc.reset(); spi.write(0x11,ce);};
+        g.command = dispinit(spi, dc, ce, rst, ()=>{g.clear().setFont("6x8",2).drawString("P8 Expruino",50,100);});
         return g;
     }
 

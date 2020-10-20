@@ -33,7 +33,6 @@
     "version":"0.01",
     "description": "A menu for setting up Bangle.js",
     "tags": "tool,system",
-    "readme": "README.md",
     "storage": [
       {"name":"setting.app.js","url":"setting.app.js"},
       {"name":"setting.img","url":"setting-icon.js","evaluate":true}
@@ -45,7 +44,6 @@
     "icon": "clock.png",
     "version":"0.06",
     "description": "Clock with multiple faces - Big, Analogue, Digital, Text.\n Switch between faces with BT1 & BTN3",
-    "readme": "README.md",
     "tags": "clock",
     "type":"clock",
     "allow_emulator":false,

@@ -5,7 +5,7 @@
     "type":"bootloader",
     "icon": "bootloader.png",
     "version":"0.01",
-    "description": "This loads the P8 App execution evironment - boot, lcd, touch & accel",
+    "description": "This loads the P8 App execution environment - boot, lcd, touch & accel",
     "storage": [
       {"name":".boot0","url":"boot0.js"},
       {"name":"lcd.js","url":"lcd.js"},
@@ -31,7 +31,7 @@
     "name": "Setting",
     "icon": "setting.png",
     "version":"0.01",
-    "description": "A menu for setting up Bangle.js",
+    "description": "A menu for aadjusting P8 settings",
     "tags": "tool,system",
     "storage": [
       {"name":"setting.app.js","url":"setting.app.js"},
@@ -53,7 +53,20 @@
       {"name":"big.face.js","url":"big.face.js"},
       {"name":"ana.face.js","url":"ana.face.js"},
       {"name":"digi.face.js","url":"digi.face.js"},
-      {"name":"txt.face.js","url":"txt.face.js"}
+      {"name":"txt.face.js","url":"txt.face.js"},
+      {"name":"clock.img","url":"clock-icon.js","evaluate":true }
+    ]
+  },
+  { "id": "life",
+    "name": "Life",
+    "icon": "life.png",
+    "version":"0.06",
+    "description": "Conway's Game of Life cellular automata",
+    "tags": "game",
+    "allow_emulator":true,
+    "storage": [
+      {"name":"life.app.js","url":"life.min.js"},
+      {"name":"life.img","url":"life-icon.js","evaluate":true }
     ]
   }
 ]

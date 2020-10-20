@@ -22,7 +22,7 @@ function draw_icon(n,selected) {
 
 function init(){
     g.setColor(0.5,0.5,1.0).fillRect(0,0,239,239);
-    g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("T-WATCH",120,12);
+    g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Espruino",120,12);
     for (var i=0;i<7;i++) {
         if (!apps[i]) return i;
         draw_icon(i,false);

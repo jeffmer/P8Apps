@@ -89,7 +89,7 @@
     "tags": "tool",
     "allow_emulator":false,
     "storage": [
-      {"name":"calc.app.js","url":"calc.app.js"},
+      {"name":"calc.app.js","url":"calc.min.js"},
       {"name":"calc.img","url":"calc-icon.js","evaluate":true }
     ]
   }

@@ -68,5 +68,29 @@
       {"name":"life.app.js","url":"life.min.js"},
       {"name":"life.img","url":"life-icon.js","evaluate":true }
     ]
+  },
+  { "id": "file",
+    "name": "Files",
+    "icon": "file.png",
+    "version":"0.01",
+    "description": "App and File Manager",
+    "tags": "tool",
+    "allow_emulator":false,
+    "storage": [
+      {"name":"file.app.js","url":"file.app.js"},
+      {"name":"file.img","url":"file-icon.js","evaluate":true }
+    ]
+  },
+  { "id": "calc",
+    "name": "Calc",
+    "icon": "calc.png",
+    "version":"0.01",
+    "description": "Simple Calculator",
+    "tags": "tool",
+    "allow_emulator":false,
+    "storage": [
+      {"name":"calc.app.js","url":"calc.app.js"},
+      {"name":"calc.img","url":"calc-icon.js","evaluate":true }
+    ]
   }
 ]

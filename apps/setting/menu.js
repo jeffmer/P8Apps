@@ -9,7 +9,6 @@
       g.drawImage({width:240,height:180,bpp:2,buffer:b.buffer,palette:pal},0,20);
     }
     if (P8.buttons) TC.removeListener("touch",P8.buttons);
-    if (P8.clearbuttons) TC.removeListener("touch",P8.clearbuttons);
     if (!items){ flip(); return; }
     var w = b.getWidth()-9;
     var h = b.getHeight();

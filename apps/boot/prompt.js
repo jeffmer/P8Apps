@@ -2,11 +2,10 @@
   title: text
   buttons : {"Yes":true,"No":false}
 } */
-(function(msg,options) {
+E.showPrompt = function(msg,options) {
   if (!options) options={};
   if (!options.buttons)
     options.buttons = {"Yes":true,"No":false};
-  var loc = require("locale");
   var btns = Object.keys(options.buttons);
   if (!options.selected)
     options.selected = 0;
@@ -16,7 +15,6 @@
     var H = g.getHeight();
     var title = options.title;
     if (title) {
-      title = loc.translate(title);
       g.drawString(title,W/2,34);
       var w = (g.stringWidth(title)+16)/2;
       g.fillRect((W/2)-w,44,(W/2)+w,44);
@@ -24,14 +22,13 @@
     var lines = msg.split("\n");
     var offset = (H - lines.length*16)/2;
     lines.forEach((line,y)=>
-      g.drawString(loc.translate(line),W/2,offset + y*16));    
+      g.drawString(line,W/2,offset + y*16));    
     var buttonWidths = 0;
-    var buttonPadding = 16;
-    btns.forEach(btn=>buttonWidths += buttonPadding+g.stringWidth(loc.translate(btn)));
+    var buttonPadding = 48;
+    btns.forEach(btn=>buttonWidths += buttonPadding+g.stringWidth(btn));
     var x = (W-buttonWidths)/2;
     var y = H-40;
     btns.forEach((btn,idx)=>{
-      btn = loc.translate(btn);
       var w = g.stringWidth(btn);
       x += (buttonPadding+w)/2;      
       var bw = 2+w/2;
@@ -49,35 +46,35 @@
     });
     g.setColor(-1).flip();  // turn screen on
   }
-  
-  if (Bangle.btnWatches) {
-    Bangle.btnWatches.forEach(clearWatch);
-    Bangle.btnWatches = undefined;
-  }
+  if (P8.prompt) TC.removeListener("touch",P8.prompt);
   g.clear(1); // clear screen
-  Bangle.drawWidgets(); // redraw widgets
   if (!msg) {
     return Promise.resolve();
   }
   draw();
+  P8.prompt = function(x,y,res){
+    if (x<80) {
+      if (options.selected>0) {
+        options.selected--;
+        draw();
+      }
+    } else if (x>160) {
+      if (options.selected<btns.length-1) {
+        options.selected++;
+        draw(); 
+      }
+    } else {
+      E.showPrompt();
+      res(options.buttons[btns[options.selected]]);
+    }
+  };
   return new Promise(resolve=>{
-    Bangle.btnWatches = [
-      setWatch(function() {
-        if (options.selected>0) {
-          options.selected--;
-          draw();
-        }
-      }, BTN1, {repeat:1}),
-      setWatch(function() {
-        if (options.selected<btns.length-1) {
-          options.selected++;
-          draw(); 
-        }
-      }, BTN3, {repeat:1}),
-      setWatch(function() {
-        E.showPrompt();
-        resolve(options.buttons[btns[options.selected]]);
-      }, BTN2, {repeat:1})
-    ];
+    TC.on("touch",(p)=>{P8.prompt(p.x,p.y,resolve);});
   });
-})
+};
+
+setTimeout(()=>{
+  E.showPrompt("this is a message",{title:"TITLE"}).then((b)=>{console.log("Result: ",b);});
+},1000);
+
+

@@ -8,6 +8,8 @@ const P8 = {
     time_left:10,
     ticker:undefined,
     pressedtime:0,
+    buttonwatchrising:undefined,
+    buttonwatchfalling:undefined,
     buzz: (v)=>{
         v = v? v : 100;
         D16.set();
@@ -24,6 +26,7 @@ const P8 = {
     init:()=>{
             var s = STOR.readJSON("settings.json",1)||{ontime:10, bright:3, timezone:1};
             P8.ON_TIME=s.ontime;
+            P8.time_left=s.ontime;
             P8.BRIGHT=s.bright;
             E.setTimeZone(s.timezone);
     },
@@ -52,7 +55,7 @@ const P8 = {
         }
     }
 };
-setWatch(() =>{P8.pressedtime = Date.now();},D17,{repeat:true,edge:"rising"});
+P8.buttonwatchrising = setWatch(() =>{P8.pressedtime = Date.now();},D17,{repeat:true,edge:"rising"});
 if (!D17.read()){
     P8.init();
     eval(STOR.read("lcd.js"));
@@ -69,7 +72,7 @@ if (!D17.read()){
        ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
     }
     P8.ticker = setInterval(P8.tick,1000);
-    setWatch(() =>{
+    P8.buttonwatchfalling= setWatch(() =>{
         if ((Date.now()-P8.pressedtime)>5000) E.reboot();
         if (!P8.awake) P8.wake();
     },D17,{repeat:true,edge:"falling"});

@@ -1,4 +1,11 @@
-(() => {
+clearWatch(P8.buttonwatchfalling);
+clearWatch(P8.buttonwatchrising);
+setWatch(E.reboot,D17,{irq:true});
+P8.setLCDTimeout(300);
+
+eval(require("Storage").read("prompt.js"));
+
+function ancs() {
 
   var s = require("Storage").readJSON("widancs.json",1)||{settings:{enabled:false, category:[1,2,4]}};
   var ENABLED = s.settings.enabled;
@@ -187,12 +194,9 @@
     //we may already be displaying a prompt, so clear it
     E.showPrompt();
     if (screentimeout) clearTimeout(screentimeout);
-    Bangle.setLCDPower(true);
+    if (!P8.awake) P8.wake();
     SCREENACCESS.request();
-    if (!buzzing){
-        buzzing=true;
-        Bangle.buzz(500).then(()=>{buzzing=false;});
-    }
+    P8.buzz();
     if (state.current.cat!=1){
       E.showAlert(message,title).then(send_action.bind(null,false));
     } else {
@@ -240,14 +244,14 @@
     var colors = new Uint16Array([0xc618,0xf818,0x3ff,0xffe0,0x07e0,0x0000]);
     var img = E.toArrayBuffer(atob("GBgBAAAABAAADgAAHwAAPwAAf4AAP4AAP4AAP4AAHwAAH4AAD8AAB+AAA/AAAfgAAf3gAH/4AD/8AB/+AA/8AAf4AAHwAAAgAAAA"));
     g.setColor(colors[stage]);
-    g.drawImage(img,this.x,this.y);
+    g.drawImage(img,10,0);
   }
     
-  WIDGETS["ancs"] ={area:"tl", width:24,draw:draw};
+  //WIDGETS["ancs"] ={area:"tl", width:24,draw:draw};
     
   function drawIcon(id){
     stage = id;
-    WIDGETS["ancs"].draw();
+    draw();
   }
   
   if (ENABLED && typeof SCREENACCESS!='undefined') {
@@ -258,7 +262,24 @@
     advert();
   }
   
-  })();
+  return draw;
+
+  };
   
+  var SCREENACCESS = {
+    request:()=>{},
+    release:()=>{}
+  }
   
+  setTimeout(()=>{g.clear().setFont("6x8",2).drawString("Press for ANCS",20,80)},500);
   
+  var drawancs;
+
+
+
+  TC.on("touch",(p)=>{
+    if (p.y<80){
+      drawancs = ancs();
+      drawancs();
+    }
+  });

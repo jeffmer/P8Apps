@@ -27,7 +27,7 @@ E.showPrompt = function(msg,options) {
     var buttonPadding = 48;
     btns.forEach(btn=>buttonWidths += buttonPadding+g.stringWidth(btn));
     var x = (W-buttonWidths)/2;
-    var y = H-40;
+    var y = H-20;
     btns.forEach((btn,idx)=>{
       var w = g.stringWidth(btn);
       x += (buttonPadding+w)/2;      
@@ -53,19 +53,31 @@ E.showPrompt = function(msg,options) {
   }
   draw();
   P8.prompt = function(x,y,res){
-    if (x<80) {
-      if (options.selected>0) {
-        options.selected--;
-        draw();
-      }
-    } else if (x>160) {
-      if (options.selected<btns.length-1) {
-        options.selected++;
-        draw(); 
-      }
+    if (y<200)return;
+    if (btns.length==1) {
+      if (x>80 && x<160) {
+        E.showPrompt();
+        res(options.buttons[btns[options.selected]]);
+      } 
+      return;
     } else {
-      E.showPrompt();
-      res(options.buttons[btns[options.selected]]);
+      if (x<100) {
+        if (options.selected != 0) {
+          options.selected = 0;
+          draw();
+        } else {
+          E.showPrompt();
+          res(options.buttons[btns[options.selected]]);
+        }
+      } else if (x>140) {
+        if (options.selected!=1) {
+          options.selected=1;
+          draw(); 
+        } else {
+          E.showPrompt();
+          res(options.buttons[btns[options.selected]]);
+        }
+      }
     }
   };
   return new Promise(resolve=>{
@@ -73,8 +85,15 @@ E.showPrompt = function(msg,options) {
   });
 };
 
+E.showAlert = function(msg,title) {
+  return E.showPrompt(msg,{title:title,buttons:{Ok:1}});
+};
+/*
+P8.setLCDTimeout(300);
+
 setTimeout(()=>{
-  E.showPrompt("this is a message",{title:"TITLE"}).then((b)=>{console.log("Result: ",b);});
+  E.showAlert("this is a message","TITLE").then((b)=>{console.log("Result: ",b);});
 },1000);
+*/
 
 

@@ -1,6 +1,8 @@
 var FACES = [];
 var iface = 0;
-require("Storage").list(/\.face\.js$/).forEach(face=>FACES.push(eval(require("Storage").read(face))));
+var STOR = require("Storage");
+eval(STOR.read("widgets.js"));
+STOR.list(/\.face\.js$/).forEach(face=>FACES.push(eval(require("Storage").read(face))));
 var face = FACES[iface]();
 var intervalRefSec;
 
@@ -31,7 +33,12 @@ function startdraw() {
   g.reset();
   face.init();
   intervalRefSec = setInterval(face.tick,1000);
-  widbat();
+  P8.drawWidgets();
+}
+
+var SCREENACCESS = {
+  request:()=>{stopdraw();},
+  release:()=>{startdraw();}
 }
 
 function setButtons(){
@@ -48,6 +55,8 @@ function setButtons(){
     else if (dir == TC.LEFT) newFace(-1);
   });
 }
+
+P8.loadWidgets();
 
 setTimeout(()=>{
   g.clear();

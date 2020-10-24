@@ -1,4 +1,4 @@
-(function(items) {
+E.showMenu = function(items) {
     var pal = new Uint16Array([0x0000,0x000F,0x03F7,0xFFFF]);
     var b = P8.buffer;
     if (!b) {
@@ -8,7 +8,7 @@
     var flip = function(){
       g.drawImage({width:240,height:180,bpp:2,buffer:b.buffer,palette:pal},0,20);
     }
-    if (P8.buttons) TC.removeListener("touch",P8.buttons);
+    if (P8.buttons) {TC.removeListener("touch",P8.buttons); P8.buttons=undefined;}
     if (!items){ flip(); return; }
     var w = b.getWidth()-9;
     var h = b.getHeight();
@@ -133,4 +133,4 @@
     l.draw();
     TC.on("touch",P8.buttons);
     return l;  
-  })
+  };

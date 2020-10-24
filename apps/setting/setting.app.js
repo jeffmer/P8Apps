@@ -1,7 +1,14 @@
 P8.setLCDTimeout(30);
 const storage = require("Storage");
-E.showMenu = eval(storage.read("menu.js"));
+eval(storage.read("menu.js"));
+eval(storage.read("prompt.js"));
 var s = storage.readJSON("settings.json",1)||{ontime:5, bright:3, timezone:1};
+
+function doreboot(){
+  E.showPrompt("Rebooting will\nreset time.\nReboot?").then((b)=>{
+      if (b) E.reboot(); else { E.showMenu(mainmenu);}
+  });
+}
 
 var mainmenu = {
     "" : { "title" : "Settings" },
@@ -18,6 +25,7 @@ var mainmenu = {
                   min:-12,max:12,step:1,
                   onchange : v => {s.timezone=v;}
                 },
+    'Reboot': ()=>{E.showMenu(); setTimeout(doreboot,300)},
     "Exit" : function() { storage.writeJSON("settings.json",s); load("launch.js");}
 };
 

@@ -41,23 +41,25 @@ E.showPrompt = function(msg,options) {
                   x-bw-4,y+8,
                   x-bw-4,y-8,
                   x-bw,y-12];
-      g.setColor(idx==options.selected ? 0x02F7 : 0).fillPoly(poly).setColor(-1).drawPoly(poly).drawString(btn,x,y+1);
+      g.setColor(idx==options.selected ? 0x05FF : 0).fillPoly(poly).setColor(-1).drawPoly(poly).drawString(btn,x,y+1);
       x += (buttonPadding+w)/2;
     });
     g.setColor(-1).flip();  // turn screen on
   }
-  if (P8.prompt) TC.removeListener("touch",P8.prompt);
+  if (P8.prompt) {TC.removeListener("touch",P8.prompt); P8.prompt=undefined;}
   g.clear(1); // clear screen
   if (!msg) {
     return Promise.resolve();
   }
   draw();
-  P8.prompt = function(x,y,res){
-    if (y<200)return;
+  var RES = null;
+  P8.prompt =  function(p){
+    var x = p.x; var y = p.y;
+    if (y<200)return -1;
     if (btns.length==1) {
       if (x>80 && x<160) {
         E.showPrompt();
-        res(options.buttons[btns[options.selected]]);
+        return RES(options.buttons[btns[options.selected]]);
       } 
       return;
     } else {
@@ -67,7 +69,7 @@ E.showPrompt = function(msg,options) {
           draw();
         } else {
           E.showPrompt();
-          res(options.buttons[btns[options.selected]]);
+          return RES(options.buttons[btns[options.selected]]);
         }
       } else if (x>140) {
         if (options.selected!=1) {
@@ -75,13 +77,15 @@ E.showPrompt = function(msg,options) {
           draw(); 
         } else {
           E.showPrompt();
-          res(options.buttons[btns[options.selected]]);
+          return RES(options.buttons[btns[options.selected]]);
         }
       }
     }
+    return;
   };
   return new Promise(resolve=>{
-    TC.on("touch",(p)=>{P8.prompt(p.x,p.y,resolve);});
+    RES = resolve;
+    TC.on("touch",P8.prompt);
   });
 };
 

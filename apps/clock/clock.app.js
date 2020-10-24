@@ -43,11 +43,11 @@ var SCREENACCESS = {
   request:function(){
     this.withApp=false;
     stopdraw();
-    alertTO = setTimeout(reset,20000);
+    this.alertTO = setTimeout(reset,20000);
   },
   release:function(){
     this.withApp=true;
-    if (alertTO) {clearTimeout(alertTO); alertTO=undefined;}
+    if (this.alertTO) {clearTimeout(this.alertTO); this.alertTO=undefined;}
     startdraw(); 
   }
 }; 

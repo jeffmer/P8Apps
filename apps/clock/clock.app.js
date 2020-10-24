@@ -1,6 +1,7 @@
 var FACES = [];
 var iface = 0;
 var STOR = require("Storage");
+eval(STOR.read("prompt.js"));
 eval(STOR.read("widgets.js"));
 STOR.list(/\.face\.js$/).forEach(face=>FACES.push(eval(require("Storage").read(face))));
 var face = FACES[iface]();
@@ -37,9 +38,27 @@ function startdraw() {
 }
 
 var SCREENACCESS = {
-  request:()=>{stopdraw();},
-  release:()=>{startdraw();}
-}
+  withApp:true,
+  request:function(){
+    this.withApp=false;
+    stopdraw();
+    clearWatch();
+  },
+  release:function(){
+    this.withApp=true;
+    startdraw(); 
+    setButtons();
+  }
+}; 
+
+P8.on('sleep',function(b) {
+  if (!SCREENACCESS.withApp) return;
+  if (!b) {
+      startdraw();
+  } else {
+      stopdraw();
+  }
+});
 
 function setButtons(){
   function newFace(inc){
@@ -64,6 +83,5 @@ setTimeout(()=>{
   setButtons();
 },500);
 
-P8.on("sleep",(b)=>{if (b) stopdraw(); else startdraw();});
 
 

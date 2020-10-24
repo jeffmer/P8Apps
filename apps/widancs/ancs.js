@@ -1,11 +1,4 @@
-clearWatch(P8.buttonwatchfalling);
-clearWatch(P8.buttonwatchrising);
-setWatch(E.reboot,D17,{irq:true});
-P8.setLCDTimeout(300);
-
-eval(require("Storage").read("prompt.js"));
-
-function ancs() {
+(() => {
 
   var s = require("Storage").readJSON("widancs.json",1)||{settings:{enabled:false, category:[1,2,4]}};
   var ENABLED = s.settings.enabled;
@@ -247,11 +240,11 @@ function ancs() {
     g.drawImage(img,10,0);
   }
     
-  //WIDGETS["ancs"] ={area:"tl", width:24,draw:draw};
+  WIDGETS["ancs"] ={area:"tl", width:24,draw:draw};
     
   function drawIcon(id){
     stage = id;
-    draw();
+    WIDGETS["ancs"].draw();
   }
   
   if (ENABLED && typeof SCREENACCESS!='undefined') {
@@ -262,24 +255,4 @@ function ancs() {
     advert();
   }
   
-  return draw;
-
-  };
-  
-  var SCREENACCESS = {
-    request:()=>{},
-    release:()=>{}
-  }
-  
-  setTimeout(()=>{g.clear().setFont("6x8",2).drawString("Press for ANCS",20,80)},500);
-  
-  var drawancs;
-
-
-
-  TC.on("touch",(p)=>{
-    if (p.y<80){
-      drawancs = ancs();
-      drawancs();
-    }
-  });
+  })();

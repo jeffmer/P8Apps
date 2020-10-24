@@ -1,5 +1,6 @@
 
 E.enableWatchdog(15, true);
+setWatch(E.reboot,D17,{irq:true});
 const STOR = require("Storage");
 const P8 = {
     ON_TIME: 10,
@@ -55,7 +56,7 @@ const P8 = {
         }
     }
 };
-P8.buttonwatchrising = setWatch(() =>{P8.pressedtime = Date.now();},D17,{repeat:true,edge:"rising"});
+//P8.buttonwatchrising = setWatch(() =>{P8.pressedtime = Date.now();},D17,{repeat:true,edge:"rising"});
 if (!D17.read()){
     P8.init();
     eval(STOR.read("lcd.js"));
@@ -72,10 +73,12 @@ if (!D17.read()){
        ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
     }
     P8.ticker = setInterval(P8.tick,1000);
+    /*
     P8.buttonwatchfalling= setWatch(() =>{
         if ((Date.now()-P8.pressedtime)>5000) E.reboot();
         if (!P8.awake) P8.wake();
     },D17,{repeat:true,edge:"falling"});
+    */
 } else {
     setWatch(() =>{
         if ((Date.now()-P8.pressedtime)>5000) E.reboot();

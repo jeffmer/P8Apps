@@ -39,15 +39,16 @@ function startdraw() {
 
 var SCREENACCESS = {
   withApp:true,
+  alertTO:undefined;
   request:function(){
     this.withApp=false;
     stopdraw();
-    clearWatch();
+    alertTO = setTimeout(reset,20000);
   },
   release:function(){
     this.withApp=true;
+    if (alertTO) {clearTimeout(alertTO); alertTO=undefined;}
     startdraw(); 
-    setButtons();
   }
 }; 
 

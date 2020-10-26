@@ -9,7 +9,7 @@ This is very much based on the excellent Bangle.js and some Bangle apps and widg
 
 ## Installation
 
-For a brand-new P8, you need to follow the instructions [here](https://github.com/fanoush/ds-d6/tree/master/espruino/DFU/P8) produced by fansoush to get the right bootloader required by Espruino - SDK12 with Softdevice S132 3.0. After that you can flash this firmware:
+For a brand-new P8, you need to follow the instructions [here](https://github.com/fanoush/ds-d6/tree/master/espruino/DFU/P8) produced by @fanoush to get the right bootloader required by Espruino - SDK12 with Softdevice S132 3.0. After that you can flash this firmware:
 
 [espruino_2v08.60_p8_SDK12_SD30_SPIFLASH.zip](https://github.com/jeffmer/P8Apps/blob/main/firmware/espruino_2v08.60_p8_SDK12_SD30_SPIFLASH.zip)
 

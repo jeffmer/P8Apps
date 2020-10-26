@@ -1,6 +1,5 @@
 
 E.enableWatchdog(15, true);
-setWatch(E.reboot,D17,{irq:true});
 const STOR = require("Storage");
 const P8 = {
     ON_TIME: 10,
@@ -9,8 +8,6 @@ const P8 = {
     time_left:10,
     ticker:undefined,
     pressedtime:0,
-    buttonwatchrising:undefined,
-    buttonwatchfalling:undefined,
     buzz: (v)=>{
         v = v? v : 100;
         D16.set();
@@ -22,6 +19,7 @@ const P8 = {
         pinMode(D16,"input",true); //power saving?
         return v;
     },
+    isPower:()=>{return D19.read();},
     setLCDTimeout:(v)=>{P8.ON_TIME=v<5?5:v;},
     setLCDBrightness:(v)=>{P8.BRIGHT=v; brightness(v);},
     init:()=>{
@@ -56,7 +54,13 @@ const P8 = {
         }
     }
 };
-//P8.buttonwatchrising = setWatch(() =>{P8.pressedtime = Date.now();},D17,{repeat:true,edge:"rising"});
+
+setWatch(()=>{
+    P8.emit("power",D19.read());
+  },D19,{repeat:true,debounce:500});
+  
+
+setWatch(() =>{P8.pressedtime = Date.now();},D17,{repeat:true,edge:"rising"});
 if (!D17.read()){
     P8.init();
     eval(STOR.read("lcd.js"));
@@ -73,12 +77,10 @@ if (!D17.read()){
        ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
     }
     P8.ticker = setInterval(P8.tick,1000);
-    /*
-    P8.buttonwatchfalling= setWatch(() =>{
+    setWatch(() =>{
         if ((Date.now()-P8.pressedtime)>5000) E.reboot();
         if (!P8.awake) P8.wake();
     },D17,{repeat:true,edge:"falling"});
-    */
 } else {
     setWatch(() =>{
         if ((Date.now()-P8.pressedtime)>5000) E.reboot();

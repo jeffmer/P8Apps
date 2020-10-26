@@ -23,7 +23,7 @@ To change Apps, a long touch on the touch screen will start the `launch` app. In
 
 There is a distinct possibility of "bricking" your P8. 
 
-To mitigate this risk, `boot` modules sets a watchdog timer and if you press the button and hold it for over 5 seconds, the P8 should reboot when you release the button. If there is no response, let the battery go flat and the P8 will restart. 
+To mitigate this risk, `boot` sets a watchdog timer and if you press the button and hold it for over 5 seconds, the P8 should reboot when you release the button. If there is no response, let the battery go flat and the P8 should restart when you connect the charger. 
 
 *Do not use `clearWatch()` anywhere as it kills both the button and the touch screen.*
 

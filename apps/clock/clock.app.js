@@ -43,7 +43,7 @@ var SCREENACCESS = {
   request:function(){
     this.withApp=false;
     stopdraw();
-    this.alertTO = setTimeout(()=>{load("launch.js");},20000);
+    this.alertTO = setTimeout(()=>{load("launch.js");},600000);
   },
   release:function(){
     this.withApp=true;

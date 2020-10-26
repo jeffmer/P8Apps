@@ -15,7 +15,7 @@ For a brand-new P8, you need to follow the instructions [here](https://github.co
 
 This build has a modified `lcd_spi_unbuf` module that works with SPI FLASH. The build makes the full 4 megabytes available to Espruino applications. In addition, there is a small hack to bluetooth to support the ANCS widget that connects to iPhones.
 
-Once Espruino is involved use the [P8 App Loader](https://jeffmer.github.io/P8Apps/) to load `boot`, `launch` and `clock` followed by the apps and widgets you want.
+Once Espruino is involved use the [P8 App Loader](https://jeffmer.github.io/P8Apps/) to load `Bootloader`, `Launcher` and `Settings` followed by the apps and widgets you want.
 
 To change Apps, a long touch on the touch screen will start the `launch` app. In addition, the P8 will display `P8 Espruino` when first booted and a long touch is required to start `launch`.
 

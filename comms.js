@@ -17,7 +17,7 @@ uploadApp : (app,skipReset) => {
         // No files left - print 'reboot' message
         if (fileContents.length==0) {
           /*
-          Puck.write(`\x10E.('Hold BTN3\\nto reload')\n`,(result) => {
+          Puck.write(`\x10E.('Long Touch\\nto reload')\n`,(result) => {
             if (result===null) return reject("");
             resolve(app);
           });
@@ -71,7 +71,7 @@ removeApp : app => { // expects an app structure
   }).join("");
   console.log("removeApp", cmds);
   return Comms.reset().then(new Promise((resolve,reject) => {
-    Puck.write(`\x03\x10E.showMessage('Erasing\\n${app.id}...')${cmds}\x10E.showMessage('Hold BTN3\\nto reload')\n`,(result) => {
+    Puck.write(`\x03\x10E.showMessage('Erasing\\n${app.id}...')${cmds}\x10E.showMessage('Long Touch\\nto reload')\n`,(result) => {
       //if (result===null) return reject("");
       resolve();
     });

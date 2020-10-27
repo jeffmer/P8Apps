@@ -28,7 +28,7 @@ uploadApp : (app,skipReset) => { // expects an apps.json structure (i.e. with `s
       function doUploadFiles() {
         // No files left - print 'reboot' message
         if (fileContents.length==0) {
-          Puck.write(`\x10E.showMessage('Hold BTN3\\nto reload')\n`,(result) => {
+          Puck.write(`\x10E.showMessage('Long Touch\\nto reload')\n`,(result) => {
             Progress.hide({sticky:true});
             //if (result===null) return reject("");
             resolve(appInfo);

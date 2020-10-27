@@ -16,10 +16,13 @@ uploadApp : (app,skipReset) => {
       function doUploadFiles() {
         // No files left - print 'reboot' message
         if (fileContents.length==0) {
-          Puck.write(`\x10E.showMessage('Hold BTN3\\nto reload')\n`,(result) => {
+          /*
+          Puck.write(`\x10E.('Hold BTN3\\nto reload')\n`,(result) => {
             if (result===null) return reject("");
             resolve(app);
           });
+          */
+          resolve(app);
           return;
         }
         var f = fileContents.shift();

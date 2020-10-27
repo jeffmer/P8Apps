@@ -30,7 +30,7 @@ uploadApp : (app,skipReset) => { // expects an apps.json structure (i.e. with `s
         if (fileContents.length==0) {
           Puck.write(`\x10E.showMessage('Hold BTN3\\nto reload')\n`,(result) => {
             Progress.hide({sticky:true});
-            if (result===null) return reject("");
+            //if (result===null) return reject("");
             resolve(appInfo);
           });
           return;
@@ -59,7 +59,7 @@ uploadApp : (app,skipReset) => { // expects an apps.json structure (i.e. with `s
       }
       // Start the upload
       function doUpload() {
-        Puck.write(`\x10E.showMessage('Uploading\\n${app.id}...')\n`,(result) => {
+        Puck.write(`\x10E.('Uploading\\n${app.id}...')\n`,(result) => {
           if (result===null) {
             Progress.hide({sticky:true});
             return reject("");
@@ -131,7 +131,7 @@ removeApp : app => { // expects an appid.info structure (i.e. with `files`)
   return Comms.reset().then(new Promise((resolve,reject) => {
     Puck.write(`\x03\x10E.showMessage('Erasing\\n${app.id}...')${cmds}\x10E.showMessage('Hold BTN3\\nto reload')\n`,(result) => {
       Progress.hide({sticky:true});
-      if (result===null) return reject("");
+     // if (result===null) return reject("");
       resolve();
     });
   })).catch(function(reason) {
@@ -145,7 +145,7 @@ removeAllApps : () => {
     // Use write with newline here so we wait for it to finish
     Puck.write('\x10E.showMessage("Erasing...");require("Storage").eraseAll();Bluetooth.println("OK");reset()\n', (result,err) => {
       Progress.hide({sticky:true});
-      if (!result || result.trim()!="OK") return reject(err || "");
+      //if (!result || result.trim()!="OK") return reject(err || "");
       resolve();
     }, true /* wait for newline */);
   });

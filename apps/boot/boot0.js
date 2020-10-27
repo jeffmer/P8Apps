@@ -4,6 +4,7 @@ const STOR = require("Storage");
 const P8 = {
     ON_TIME: 10,
     BRIGHT : 3,
+    FACEUP:true,
     awake : true,
     time_left:10,
     ticker:undefined,
@@ -23,10 +24,11 @@ const P8 = {
     setLCDTimeout:(v)=>{P8.ON_TIME=v<5?5:v;},
     setLCDBrightness:(v)=>{P8.BRIGHT=v; brightness(v);},
     init:()=>{
-            var s = STOR.readJSON("settings.json",1)||{ontime:10, bright:3, timezone:1};
+            var s = STOR.readJSON("settings.json",1)||{ontime:10, bright:3, timezone:1,faceup:true};
             P8.ON_TIME=s.ontime;
             P8.time_left=s.ontime;
             P8.BRIGHT=s.bright;
+            P8.FACEUP=s.faceup;
             E.setTimeZone(s.timezone);
     },
     sleep:() => {
@@ -70,7 +72,7 @@ if (!D17.read()){
     TC.start();
     TC.on('touch',(p)=>{P8.time_left=P8.ON_TIME;});
     TC.on("longtouch", (p)=> {P8.time_left=P8.ON_TIME;if (D17.read()) reset(); else load("launch.js");});
-    if (STOR.read("accel.js")){ 
+    if (P8.FACEUP && STOR.read("accel.js")){ 
        eval(STOR.read("accel.js"));
        ACCEL.init();
        setInterval(ACCEL.check,200);

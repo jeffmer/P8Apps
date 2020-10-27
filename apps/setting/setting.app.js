@@ -2,7 +2,7 @@ P8.setLCDTimeout(30);
 const storage = require("Storage");
 eval(storage.read("menu.js"));
 eval(storage.read("prompt.js"));
-var s = storage.readJSON("settings.json",1)||{ontime:5, bright:3, timezone:1};
+var s = storage.readJSON("settings.json",1)||{ontime:5, bright:3, timezone:1, faceup:true};
 
 function doreboot(){
   E.showPrompt("Rebooting will\nreset time.\nReboot?").then((b)=>{
@@ -24,6 +24,11 @@ var mainmenu = {
     "Time Zone" :{ value : s.timezone,
                   min:-12,max:12,step:1,
                   onchange : v => {s.timezone=v;}
+                },
+    'Face UP Wake': {
+                  value: s.faceup,
+                  format: () => (s.faceup ? 'Yes' : 'No'),
+                  onchange: () => {s.faceup = !s.faceup;}
                 },
     'Reboot': ()=>{E.showMenu(); setTimeout(doreboot,300)},
     "Exit" : function() { storage.writeJSON("settings.json",s); load("launch.js");}

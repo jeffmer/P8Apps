@@ -156,16 +156,6 @@
   var inalert = false;
   var LAST = {ttl:'',msg:'NONE'};
   
-  TC.on('swipe',(d)=>{
-    if (!SCREENACCESS.withapp) return;
-    if(d==TC.DOWN){
-        SCREENACCESS.request();
-        E.showMessage(LAST.msg,LAST.ttl);
-    } else if (d==TC.UP) {
-        SCREENACCESS.request();      
-    }
-  });
-  
   function release_screen(){
     screentimeout= setTimeout(() => { 
         SCREENACCESS.release(); 
@@ -264,6 +254,14 @@
     NRF.sleep();
     NRF.wake();
     advert();
+    TC.on('swipe',(d)=>{
+      if(SCREENACCESS.withApp && d==TC.DOWN){
+          SCREENACCESS.request();
+          E.showMessage(LAST.msg,LAST.ttl);
+      } else if (!SCREENACCESS.withApp && d==TC.UP) {
+          SCREENACCESS.release();      
+      }
+    });
   }
   
   })();

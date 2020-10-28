@@ -151,10 +151,20 @@
     return txt.join("\n");
   }
   
-  
   var buzzing =false;  
   var screentimeout = undefined;
   var inalert = false;
+  var LAST = {ttl:'',msg:'NONE'};
+  
+  TC.on('swipe',(d)=>{
+    if (!SCREENACCESS.withapp) return;
+    if(d==TC.DOWN){
+        SCREENACCESS.request();
+        E.showMessage(LAST.msg,LAST.ttl);
+    } else if (d==TC.UP) {
+        SCREENACCESS.request();      
+    }
+  });
   
   function release_screen(){
     screentimeout= setTimeout(() => { 
@@ -184,6 +194,7 @@
       message+=String.fromCharCode(buf[j]);
     } 
     message = wordwrap(message);
+    LAST = {ttl:title,msg:message};
     //we may already be displaying a prompt, so clear it
     E.showPrompt();
     if (screentimeout) clearTimeout(screentimeout);

@@ -9,23 +9,11 @@
     "storage": [
       {"name":".boot0","url":"boot0.js"},
       {"name":"lcd.js","url":"lcd.js"},
-      {"name":"touch.js","url":"touch.js"},
+      {"name":"touch.js","url":"toucher.js"},
       {"name":"accel.js","url":"accel.js"},
       {"name":"prompt.js","url":"prompt.js"},
       {"name":"menu.js","url":"menu.js"},
       {"name":"widgets.js","url":"widgets.js"}
-    ],
-    "sortorder" : -10
-  },
-  { "id": "toucher",
-    "name": "Toucher",
-    "tags": "tool,system",
-    "type":"bootloader",
-    "icon": "bootloader.png",
-    "version":"0.01",
-    "description": "This loads  touch  only",
-    "storage": [
-      {"name":"touch.js","url":"toucher.js"}
     ],
     "sortorder" : -10
   },

@@ -17,6 +17,18 @@
     ],
     "sortorder" : -10
   },
+  { "id": "touch",
+    "name": "Touch",
+    "tags": "tool,system",
+    "type":"bootloader",
+    "icon": "bootloader.png",
+    "version":"0.01",
+    "description": "This loads  touch  only",
+    "storage": [
+      {"name":"touch.js","url":"touch.js"}
+    ],
+    "sortorder" : -10
+  },
   { "id": "launch",
     "name": "Launcher (Default)",
     "shortName":"Launcher",

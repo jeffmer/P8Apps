@@ -59,11 +59,11 @@ uploadApp : (app,skipReset) => { // expects an apps.json structure (i.e. with `s
       }
       // Start the upload
       function doUpload() {
-        Puck.write(`\x10E.('Uploading\\n${app.id}...')\n`,(result) => {
-          if (result===null) {
-            Progress.hide({sticky:true});
-            return reject("");
-          }
+        Puck.write(`\x10E.showMessage('Uploading\\n${app.id}...')\n`,(result) => {
+          //if (result===null) {
+           // Progress.hide({sticky:true});
+        //return reject("");
+         // }
           doUploadFiles();
         });
       }
@@ -129,7 +129,7 @@ removeApp : app => { // expects an appid.info structure (i.e. with `files`)
   }).join("");
   console.log("removeApp", cmds);
   return Comms.reset().then(new Promise((resolve,reject) => {
-    Puck.write(`\x03\x10E.showMessage('Erasing\\n${app.id}...')${cmds}\x10E.showMessage('Hold BTN3\\nto reload')\n`,(result) => {
+    Puck.write(`\x03\x10E.showMessage('Erasing\\n${app.id}...')${cmds}\x10E.showMessage('Long touch\\nto reload')\n`,(result) => {
       Progress.hide({sticky:true});
      // if (result===null) return reject("");
       resolve();

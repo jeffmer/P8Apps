@@ -152,9 +152,14 @@
   }
   
   var buzzing =false;  
-  var screentimeout = undefined;
+  var screentimeout;
   var inalert = false;
-  var LAST = {ttl:'',msg:'NONE'};
+  var LAST = [];
+
+  function saveLast(mm){
+    LAST.unshift(mm);
+    if (LAST.length>3) LAST.pop();
+  }
   
   function release_screen(){
     screentimeout= setTimeout(() => { 
@@ -184,7 +189,7 @@
       message+=String.fromCharCode(buf[j]);
     } 
     message = wordwrap(message);
-    LAST = {ttl:title,msg:message};
+    saveLast({ttl:title,msg:message});
     //we may already be displaying a prompt, so clear it
     E.showPrompt();
     if (screentimeout) clearTimeout(screentimeout);
@@ -250,16 +255,24 @@
   
   if (ENABLED && typeof SCREENACCESS!='undefined') {
     stage = 0;
+    recent=0;
     NRF.setServices(undefined,{uart:false});
     NRF.sleep();
     NRF.wake();
     advert();
+    saveLast(  {ttl:'',msg:'NONE'});
     TC.on('swipe',(d)=>{
-      if(SCREENACCESS.withApp && d==TC.DOWN){
-          SCREENACCESS.request();
-          E.showMessage(LAST.msg,LAST.ttl);
-      } else if (!SCREENACCESS.withApp && d==TC.UP) {
-          SCREENACCESS.release();      
+      if (!SCREENACCESS.withApp && d==TC.UP) {
+        SCREENACCESS.release(); 
+      } else if (SCREENACCESS.withApp && d==TC.DOWN){
+          SCREENACCESS.request(); recent=0;
+          E.showMessage(LAST[recent].msg,LAST[recent].ttl);    
+      } else if (!SCREENACCESS.withApp && d==TC.LEFT){
+         ++recent; if (recent>=LAST.lenght) recent =0;
+         E.showMessage(LAST[recent].msg,LAST[recent].ttl);
+      } else if (!SCREENACCESS.withApp && d==TC.RIGHT){
+          --recent; if (recent<0) recent = LAST.lenght-1;
+          E.showMessage(LAST[recent].msg,LAST[recent].ttl);
       }
     });
   }

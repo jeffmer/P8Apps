@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 (() => {
 
-  const BLACK = 0, MOON = 0x41f, MC = 29.5305882, NM = 694039.09; 
+  const BLACK = 0, MOON = 0xFFE0, MC = 29.5305882, NM = 694039.09; 
   var r = 12, mx = 0, my = 0;
 
   var moon = {

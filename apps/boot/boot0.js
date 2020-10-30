@@ -50,6 +50,7 @@ const P8 = {
     tick:()=>{
         P8.time_left--;
         if (P8.time_left<=0){
+           if (ACCEL && ACCEL.faceup) {P8.time_left = P8.ON_TIME; return;}
            if (P8.ticker) P8.ticker=clearInterval(P8.ticker);
            P8.emit("sleep",true);
            P8.sleep();
@@ -71,6 +72,7 @@ if (!D17.read()){
     eval(STOR.read("touch.js"));
     TC.start();
     TC.on('touch',(p)=>{P8.time_left=P8.ON_TIME;});
+    TC.on('swipe',(d)=>{P8.time_left=P8.ON_TIME;});
     TC.on("longtouch", (p)=> {P8.time_left=P8.ON_TIME;if (D17.read()) reset(); else load("launch.js");});
     if (P8.FACEUP && STOR.read("accel.js")){ 
        eval(STOR.read("accel.js"));

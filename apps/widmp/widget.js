@@ -17,7 +17,7 @@
   };
 
   function moonPhase(d) {
-    var tmp, month = d.getMonth(), year = d.getFullYear(), day = d.getDate();
+    var tmp, month = d.getMonth()+1, year = d.getFullYear(), day = d.getDate();
     if (month < 3) {year--; month += 12;}
     tmp = ((365.25 * year + 30.6 * ++month + day - NM) / MC);
     return Math.round(((tmp - (tmp | 0)) * 7)+1);

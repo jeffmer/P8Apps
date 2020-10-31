@@ -135,7 +135,7 @@
   { "id": "widmp",
     "name": "Moon Phase Widget",
     "icon": "widget.png",
-    "version":"0.01",
+    "version":"0.02",
     "description": "Display the current moon phase in blueish for the northern hemisphere in eight phases",
     "tags": "widget,tools",
     "type":"widget",

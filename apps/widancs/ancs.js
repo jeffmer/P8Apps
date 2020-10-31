@@ -263,7 +263,7 @@
     saveLast(  {ttl:'',msg:'NONE'});
     TC.on('swipe',(d)=>{
       if (!SCREENACCESS.withApp && d==TC.UP) {
-        SCREENACCESS.release(); 
+        g.clear(); SCREENACCESS.release(); 
       } else if (SCREENACCESS.withApp && d==TC.DOWN){
           SCREENACCESS.request(); recent=0;
           E.showMessage(LAST[recent].msg,LAST[recent].ttl);    

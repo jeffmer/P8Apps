@@ -35,7 +35,7 @@ function drawClock() {
   cg.clear(1);
   cg.setColor(1);
   var x = 74 + 32 * inf.align;
-  cg.setFont("6x8",3);
+  cg.setFont("Vector",36);
   cg.setFontAlign(1,-1);
   cg.drawString(hours, x, 0);
   x+=2;
@@ -45,11 +45,11 @@ function drawClock() {
   cg.setFontAlign(-1,-1);
   cg.drawString(("0"+t.getMinutes()).substr(-2), x, 0);
   x+=44;
-  cg.setFont("6x8",1);
-  cg.drawString(("0"+t.getSeconds()).substr(-2), x, 20);
+  cg.setFont("6x8",2);
+  cg.drawString(("0"+t.getSeconds()).substr(-2), x, 14);
   cg.setFont("6x8",1);
   cg.drawString(meridian, x+2, 0);
-  let date = t.toString();
+  let date = t.toString().substr(0,14);
   if (cg.stringWidth(date) < IW-64) {
     cg.setFontAlign(0, -1);
     cg.drawString(date,IW/2+32*inf.align,IH-8);

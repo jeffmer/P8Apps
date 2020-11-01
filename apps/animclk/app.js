@@ -18,10 +18,9 @@ var IW = 174, IH = 45, OY = 24;
 var inf = {align:0};
 var bgoptions;
 
-require("Font7x11Numeric7Seg").add(Graphics);
+//require("Font7x11Numeric7Seg").add(Graphics);
 var cg = Graphics.createArrayBuffer(IW,IH,IBPP,{msb:true});
 var cgimg = {width:IW,height:IH,bpp:IBPP,transparent:0,buffer:cg.buffer};
-var locale = require("locale");
 var lastTime = "";
 
 function drawClock() {
@@ -36,7 +35,7 @@ function drawClock() {
   cg.clear(1);
   cg.setColor(1);
   var x = 74 + 32 * inf.align;
-  cg.setFont("7x11Numeric7Seg",3);
+  cg.setFont("6x8",3);
   cg.setFontAlign(1,-1);
   cg.drawString(hours, x, 0);
   x+=2;
@@ -46,11 +45,11 @@ function drawClock() {
   cg.setFontAlign(-1,-1);
   cg.drawString(("0"+t.getMinutes()).substr(-2), x, 0);
   x+=44;
-  cg.setFont("7x11Numeric7Seg",1);
+  cg.setFont("6x8",1);
   cg.drawString(("0"+t.getSeconds()).substr(-2), x, 20);
   cg.setFont("6x8",1);
   cg.drawString(meridian, x+2, 0);
-  let date = locale.date(t);
+  let date = t.toString();
   if (cg.stringWidth(date) < IW-64) {
     cg.setFontAlign(0, -1);
     cg.drawString(date,IW/2+32*inf.align,IH-8);

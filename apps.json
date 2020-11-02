@@ -172,7 +172,7 @@
     ]
   },
   { "id": "blackjack",
-    "name": "Jack",
+    "name": "21",
     "shortName":"Black Jack",
     "icon": "blackjack.png",
     "version":"0.01",

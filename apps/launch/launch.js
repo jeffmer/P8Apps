@@ -28,15 +28,14 @@ function draw_icon(p,n,selected) {
 
 function drawPage(p){
     g.setColor(0.5,0.5,1.0).fillRect(0,0,239,239);
-    g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Apps ("+(p+1)+"/"+Npages,120,12);
-    var n = 
+    g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Apps ("+(p+1)+"/"+Npages+")",120,12);
     for (var i=0;i<6;i++) {
         if (!apps[p*6+i]) return i;
         draw_icon(p,i,false);
     }
 }
 
-TC.on("swipe",(d)=>{
+TC.on("swipe",(dir)=>{
     selected = -1;
     if (dir==TC.LEFT){
         ++page; if (page>maxPage) page=maxPage;
@@ -57,7 +56,7 @@ function isTouched(p,n){
 TC.on("touch",(p)=>{
     var i;
     for (i=0;i<6;i++){
-        if((page*6+i)<=Napps){
+        if((page*6+i)<Napps){
             if (isTouched(p,i)) {
                 draw_icon(page,i,true);
                 if (selected>=0) {
@@ -72,8 +71,8 @@ TC.on("touch",(p)=>{
             }
         }
     }
-    if ((i==6 || (page*6+i)>=Apps) && selected>=0) {
-        draw_icon(selected,false);
+    if ((i==6 || (page*6+i)>=Napps) && selected>=0) {
+        draw_icon(page,selected,false);
         selected=-1;
     }
 });

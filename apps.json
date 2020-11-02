@@ -95,6 +95,18 @@
       {"name":"calc.img","url":"calc-icon.js","evaluate":true }
     ]
   },
+  { "id": "calendar",
+    "name": "Dates",
+    "icon": "calendar.png",
+    "version":"0.01",
+    "description": "Calendar",
+    "tags": "tool",
+    "allow_emulator":false,
+    "storage": [
+      {"name":"calendar.app.js","url":"calendar.app.js"},
+      {"name":"calendar.img","url":"calendar-icon.js","evaluate":true }
+    ]
+  },
   { "id": "widbat",
     "name": "Battery Level Widget",
     "icon": "widget.png",

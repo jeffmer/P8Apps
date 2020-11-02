@@ -1,4 +1,4 @@
-const { TokContext } = require("acorn");
+//const { TokContext } = require("acorn");
 
 const Clubs = { width : 48, height : 48, bpp : 1,  
   buffer : require("heatshrink").decompress(atob("ACcP+AFDn/8Aod//wFD///AgUBAoOAApsDAoPAAr4vLI4pTEgP8L4M/wEH/5rB//gh//x/x//wj//9/3//4n4iBAAIZBAol/Aof+Apv5z4FP+OPAo41BAoX8I4Pj45HBAoPD4YFBLIOD4JZBRAMD4CKC/AFBj59Cg/gQYYFXAB4="))
@@ -187,9 +187,9 @@ function startGame(){
 }
 
 TC.on("touch",(p)=> {
-    if (p.x<120 && y>120) hitMe();
-    else if (p.x>120 && y>120) stand();
-    else if (y<100) startGame();
+    if (p.x<120 && p.y>120) hitMe();
+    else if (p.x>120 && p.y>120) stand();
+    else if (p.y<100) startGame();
 });
 
 startGame();

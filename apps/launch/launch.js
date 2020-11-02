@@ -12,25 +12,40 @@ apps.sort((a,b)=>{
   return 0;
 });
 
-function draw_icon(n,selected) {
+var Napps = apps.length;
+var Npages = Math.ceil(Napps/6);
+var maxPage = Npages-1;
+var selected = -1;
+var page = 0;
+
+function draw_icon(p,n,selected) {
     var x = (n%3)*80; 
     var y = n>2?130:40;
     (selected?g.setColor(0.8,0.8,1.0):g.setColor(0.5,0.5,1.0)).fillRect(x,y,x+79,y+89);
-    g.drawImage(s.read(apps[n].icon),x+10,y+10,{scale:1.25});
+    g.drawImage(s.read(apps[p*6+n].icon),x+10,y+10,{scale:1.25});
     g.setColor(-1).setFontAlign(0,-1,0).setFont("6x8",2).drawString(apps[n].name,x+40,y+74);
 }
 
-function init(){
+function drawPage(p){
     g.setColor(0.5,0.5,1.0).fillRect(0,0,239,239);
-    g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Espruino",120,12);
-    for (var i=0;i<7;i++) {
-        if (!apps[i]) return i;
-        draw_icon(i,false);
+    g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Apps ("+(p+1)+"/"+Npages,120,12);
+    var n = 
+    for (var i=0;i<6;i++) {
+        if (!apps[p*6+i]) return i;
+        draw_icon(p,i,false);
     }
 }
 
-var Napps;
-var selected = -1;
+TC.on("swipe",(d)=>{
+    selected = -1;
+    if (dir==TC.LEFT){
+        ++page; if (page>maxPage) page=maxPage;
+        drawPage(page);
+    } else if (dir==TC.RIGHT){
+        --page; if (page<0) page=0;
+        drawPage(page);
+    }  
+});
 
 function isTouched(p,n){
     if (n<0 || n>5) return false;
@@ -41,24 +56,26 @@ function isTouched(p,n){
 
 TC.on("touch",(p)=>{
     var i;
-    for (i=0;i<Napps;i++){
-        if (isTouched(p,i)) {
-            draw_icon(i,true);
-            if (selected>=0) {
-                if (selected!=i){
-                    draw_icon(selected,false);
-                } else {
-                  if (D17.read()) reset(); else load(apps[i].src);
+    for (i=0;i<6;i++){
+        if((page*6+i)<=Napps){
+            if (isTouched(p,i)) {
+                draw_icon(page,i,true);
+                if (selected>=0) {
+                    if (selected!=i){
+                        draw_icon(page,selected,false);
+                    } else {
+                      if (D17.read()) reset(); else load(apps[page*6+i].src);
+                    }
                 }
+                selected=i;
+                break;
             }
-            selected=i;
-            break;
         }
     }
-    if (i==Napps && selected>=0) {
+    if ((i==6 || (page*6+i)>=Apps) && selected>=0) {
         draw_icon(selected,false);
         selected=-1;
     }
 });
 
-setTimeout(()=>{Napps=init();},1000);
+setTimeout(()=>{drawPage(0)},1000);

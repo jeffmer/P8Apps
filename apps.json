@@ -21,8 +21,8 @@
     "name": "Launcher (Default)",
     "shortName":"Launcher",
     "icon": "launch.png",
-    "version":"0.01",
-    "description": "This version supports maximum of 6 apps.",
+    "version":"0.02",
+    "description": "Now supports multiple pages.",
     "tags": "tool,system,launcher",
     "type":"launch",
     "storage": [

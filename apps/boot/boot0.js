@@ -15,9 +15,9 @@ const P8 = {
         setTimeout(()=>{D16.reset();},v);
     },
     batV: () => {
-        pinMode(D16,"analog",true);
+        pinMode(D31,"analog",true);
         var v = 7.1 * analogRead(D31);
-        pinMode(D16,"input",true); //power saving?
+        pinMode(D31,"input",true); //power saving?
         return v;
     },
     isPower:()=>{return D19.read();},
@@ -50,7 +50,7 @@ const P8 = {
     tick:()=>{
         P8.time_left--;
         if (P8.time_left<=0){
-           if (ACCEL && ACCEL.faceup) {P8.time_left = P8.ON_TIME; return;}
+           if (global.ACCEL && ACCEL.faceup) {P8.time_left = P8.ON_TIME; return;}
            if (P8.ticker) P8.ticker=clearInterval(P8.ticker);
            P8.emit("sleep",true);
            P8.sleep();

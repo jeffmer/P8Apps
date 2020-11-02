@@ -173,7 +173,7 @@
   },
   { "id": "blackjack",
     "name": "21",
-    "shortName":"Black Jack",
+    "shortName":"21",
     "icon": "blackjack.png",
     "version":"0.01",
     "description": "Simple implementation of card game Black Jack",

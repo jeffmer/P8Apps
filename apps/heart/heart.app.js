@@ -133,6 +133,7 @@ var HRS = {
 
 P8.setLCDTimeout(600);
 var x =0;
+var lasty = 239;
 var interval;
 
 function doread(){
@@ -146,7 +147,8 @@ function doread(){
   g.setColor(0);
   g.fillRect(x,0,x,239);
   g.setColor(0x07E0);
-  g.fillRect(x,239,x,239-v);
+  g.fillRect(x,lasty,x,239-v);
+  lasty=239-v;
   ++x;
   if (x>=240) x = 0;
   //time = Math.floor(Date.now()-time);

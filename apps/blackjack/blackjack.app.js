@@ -47,10 +47,9 @@ function shuffle(a) {
 
 function EndGameMessdage(msg){
   g.drawString(msg, 155, 200);
-  setTimeout(function(){
-    startGame();
-  }, 2500);
-
+  //setTimeout(function(){
+  //  startGame();
+  //}, 2500);
 }
 
 function hitMe() {

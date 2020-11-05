@@ -185,9 +185,9 @@
     ]
   },
   { "id": "clotris",
-    "name": "Clock-Tris",
+    "name": "Tetris",
     "icon": "clock-tris.png",
-    "version":"0.01",
+    "version":"0.02",
     "description": "A fully functional clone of a classic game of falling blocks",
     "tags": "game",
     "allow_emulator":true,
@@ -195,6 +195,7 @@
       {"name":"clotris.app.js","url":"clock-tris.js"},
       {"name":"clotris.img","url":"clock-tris-icon.js","evaluate":true},
       {"name":".trishig","url":"clock-tris-high"}
-    ]
+    ],
+    "sortorder" : 5
   }
 ]

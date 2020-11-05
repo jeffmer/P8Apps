@@ -11,8 +11,12 @@ const P8 = {
     pressedtime:0,
     buzz: (v)=>{
         v = v? v : 100;
-        D16.set();
-        setTimeout(()=>{D16.reset();},v);
+        if (v<=50){
+            digitalPulse(D16,true,v);
+        } else {
+            D16.set();
+            setTimeout(()=>{D16.reset();},v);
+        }
     },
     batV: () => {
         pinMode(D31,"analog",true);

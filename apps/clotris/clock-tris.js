@@ -296,7 +296,7 @@ seWatch(togglePause, BTN_PAUSE, { repeat: true });
 */
 var selbut = -1;
 var butdefs = [{x1:10,y1:200,x2:59,y2:239,poly:[20,220,50,204,50,235]},
-                {x1:95,y1:200,x2:144,y2:239,poly:[105,204,135,204,105,235,135,235]},
+                {x1:95,y1:200,x2:144,y2:239,poly:[105,204,135,204,120,235]},
                 {x1:180,y1:200,x2:229,y2:239,poly:[190,204,220,220,190,235]}];
 var drawButton = function(d,sel){
       (sel?g.setColor(0.8,0.8,1.0):g.setColor(0.5,0.5,1.0)).fillRect(d.x1,d.y1,d.x2,d.y2);
@@ -306,16 +306,16 @@ var drawButton = function(d,sel){
 var isPressed = function(p,n) {
     var d = butdefs[n];
     var bb = (p.x>d.x1 && p.y>d.y1 && p.x<d.x2 && p.y<d.y2);
-    if (bb) {selbut=n; drawButton(d,true);setTimeout(()=>{drawButton(d,false);},50);}
+    if (bb) {selbut=n; drawButton(d,false);P8.buzz(40);}
     return bb;
 };
 buttons = function(p){
   if (isPressed(p,0)) checkMove(-1,0,0);
-  else if (isPressed(p,1)) checkMove(0,0,1); 
+  else if (isPressed(p,1)) checkMove(0,1,0); 
   else if (isPressed(p,2)) checkMove(1,0,0);
   else selbut=-1;
 };
-
+setWatch(() =>{checkMove(0,0,1);},D17,{repeat:true,edge:"rising"});
 TC.on("touch",buttons);
 P8.on("sleep",(b)=>{pause(b)});
 

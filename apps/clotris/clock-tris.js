@@ -1,8 +1,12 @@
-Bangle.setLCDMode("doublebuffered");
+
 
 const storage = require("Storage");
 
-
+g.setColor(1,1,1);
+var buf = Graphics.createArrayBuffer(240,160,1,{msb:true});
+function flip() {
+  g.drawImage({width:240,height:160,bpp:1,buffer:buf.buffer},0,0);
+}
 
 const W = buf.getWidth();
 const H = buf.getHeight();
@@ -57,33 +61,12 @@ const BLOCKS = [
 ];
 
 
-var pal16color = new Uint16Array([
-  0x0000,
-  0xffff,
-  0b0111100000001111,
-  0b0000011111100000,
-  0b1111100000000011,
-  0b0111100111100000,
-  0b0000000000011111,
-  0b0000001111111111,
-  0b1111111111100000,
-  0b10000000000010,
-  0b01111111111100,0,0,0,0,0]);
-  var buf = Graphics.createArrayBuffer(240,160,2,{msb:true});
-  
-  function flip() {
-   g.drawImage({width:240,height:160,bpp:4,buffer:b.buffer, palette:pal16color},0,0);
-   g.clear();
-  }
-
 const COLOR_WHITE = 1;
 const COLOR_BLACK = 0;
 
-const BLOCK_COLORS = [2,3,4,5,6,7,8];
-
-const EMPTY_LINE = 0;
-const BOUNDARY = 9;
-const FULL_LINE = 10;
+const EMPTY_LINE = 0b00000000000000;
+const BOUNDARY = 0b10000000000010;
+const FULL_LINE = 0b01111111111100;
 
 let gameOver = false;
 let paused = false;
@@ -122,7 +105,7 @@ function drawBoard() {
   buf.drawRect(BOARD_X - 3, BOARD_Y - 3, BOARD_X + BOARD_W, BOARD_Y + BOARD_H);
   drawBlock(board, BOARD_X, BOARD_Y, -2, 0);
 
-  buf.setColor(BLOCK_COLORS[currentBlock]);
+  buf.setColor(1);
   drawBlock(getBlock(currentBlock, rotation), BOARD_X, BOARD_Y, x - 2, y);
 }
 
@@ -130,7 +113,7 @@ function drawNextBlock() {
   buf.setFontAlign(0, -1, 0);
   buf.setColor(COLOR_WHITE);
   buf.drawString("NEXT BLOCK", BOARD_X / 2, 10);
-  buf.setColor(BLOCK_COLORS[nextBlock]);
+  buf.setColor(1);
   drawBlock(getBlock(nextBlock, 0), BOARD_X / 2 - 2 * CELL_SIZE, 25, 0, 0);
 }
 
@@ -179,7 +162,7 @@ function draw() {
   if (gameOver) {
     drawGameOver();
   }
-  buf.flip();
+  flip();
 }
 
 function getNextBlock() {
@@ -312,18 +295,18 @@ bindButton(BTN_DOWN, 0, 1, 0);
 seWatch(togglePause, BTN_PAUSE, { repeat: true });
 */
 var selbut = -1;
-var butdefs = [{x1:10,y1:200,x2:59,y2:239,poly:[35,204,20,235,50,235]},
+var butdefs = [{x1:10,y1:200,x2:59,y2:239,poly:[20,220,50,204,50,235]},
                 {x1:95,y1:200,x2:144,y2:239,poly:[105,204,135,204,105,235,135,235]},
-                {x1:180,y1:200,x2:229,y2:239,poly:[190,204,220,204,205,235]}];
+                {x1:180,y1:200,x2:229,y2:239,poly:[190,204,220,220,190,235]}];
 var drawButton = function(d,sel){
       (sel?g.setColor(0.8,0.8,1.0):g.setColor(0.5,0.5,1.0)).fillRect(d.x1,d.y1,d.x2,d.y2);
       g.setColor(-1).fillPoly(d.poly);
 };
-for(var i=0;i<3;i++)drawButton(butdefs[i],false);
+
 var isPressed = function(p,n) {
     var d = butdefs[n];
     var bb = (p.x>d.x1 && p.y>d.y1 && p.x<d.x2 && p.y<d.y2);
-    if (bb) {selbut=n; drawButton(d,true);setTimeout(()=>{drawButton(d,false);},200);}
+    if (bb) {selbut=n; drawButton(d,true);setTimeout(()=>{drawButton(d,false);},50);}
     return bb;
 };
 buttons = function(p){
@@ -336,5 +319,8 @@ buttons = function(p){
 TC.on("touch",buttons);
 P8.on("sleep",(b)=>{pause(b)});
 
-startGame();
-drawLoop();
+setTimeout(()=>{
+  for(var i=0;i<3;i++)drawButton(butdefs[i],false);
+  startGame();
+  drawLoop();
+},500);

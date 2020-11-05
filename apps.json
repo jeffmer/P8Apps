@@ -98,7 +98,7 @@
   { "id": "calendar",
     "name": "Dates",
     "icon": "calendar.png",
-    "version":"0.01",
+    "version":"0.02",
     "description": "Calendar",
     "tags": "tool",
     "allow_emulator":false,

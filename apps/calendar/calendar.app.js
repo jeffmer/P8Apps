@@ -137,13 +137,13 @@ const today = {
 setTimeout(()=>{drawCalendar(date);},500);
 
 TC.on("swipe",(dir)=>{
-    if (dir==TC.LEFT) {
+    if (dir==TC.RIGHT) {
       const month = date.getMonth();
       const prevMonth = month > 0 ? month - 1 : 11;
       if (prevMonth === 11) date.setFullYear(date.getFullYear() - 1);
       date.setMonth(prevMonth);
       drawCalendar(date);
-    } else if (dir==TC.RIGHT) {
+    } else if (dir==TC.LEFT) {
       const month = date.getMonth();
       const prevMonth = month < 11 ? month + 1 : 0;
       if (prevMonth === 0) date.setFullYear(date.getFullYear() + 1);

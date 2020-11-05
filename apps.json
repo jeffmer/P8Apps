@@ -183,5 +183,18 @@
       {"name":"blackjack.app.js","url":"blackjack.app.js"},
       {"name":"blackjack.img","url":"blackjack-icon.js","evaluate":true}
     ]
+  },
+  { "id": "clotris",
+    "name": "Clock-Tris",
+    "icon": "clock-tris.png",
+    "version":"0.01",
+    "description": "A fully functional clone of a classic game of falling blocks",
+    "tags": "game",
+    "allow_emulator":true,
+    "storage": [
+      {"name":"clotris.app.js","url":"clock-tris.js"},
+      {"name":"clotris.img","url":"clock-tris-icon.js","evaluate":true},
+      {"name":".trishig","url":"clock-tris-high"}
+    ]
   }
 ]

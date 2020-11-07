@@ -30,6 +30,11 @@ var mainmenu = {
                   format: () => (s.faceup ? 'Yes' : 'No'),
                   onchange: () => {s.faceup = !s.faceup;}
                 },
+    'Vibrate': {
+                  value: s.Vibrate,
+                  format: () => (s.vibrate ? 'Yes' : 'No'),
+                  onchange: () => {s.vibrate = !s.vibrate;}
+                },
     'Reboot': ()=>{E.showMenu(); setTimeout(doreboot,300)},
     "Exit" : function() { storage.writeJSON("settings.json",s); load("launch.js");}
 };

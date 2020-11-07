@@ -4,7 +4,7 @@
     "tags": "tool,system",
     "type":"bootloader",
     "icon": "bootloader.png",
-    "version":"0.01",
+    "version":"0.02",
     "description": "This loads the P8 App execution environment - boot, lcd, touch & accel",
     "storage": [
       {"name":".boot0","url":"boot0.js"},
@@ -33,7 +33,7 @@
   { "id": "setting",
     "name": "Setting",
     "icon": "setting.png",
-    "version":"0.01",
+    "version":"0.02",
     "description": "A menu for aadjusting P8 settings",
     "tags": "tool,system",
     "storage": [

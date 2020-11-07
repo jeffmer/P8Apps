@@ -3,6 +3,7 @@
   buttons : {"Yes":true,"No":false}
 } */
 E.showPrompt = function(msg,options) {
+  var FSIZE = 24;
   if (!options) options={};
   if (!options.buttons)
     options.buttons = {"Yes":true,"No":false};
@@ -10,7 +11,7 @@ E.showPrompt = function(msg,options) {
   if (!options.selected)
     options.selected = 0;
   function draw() {
-    g.reset().setFont("6x8",2).setFontAlign(0,0);
+    g.reset().setFont("Vector",FSIZE).setFontAlign(0,0);
     var W = g.getWidth();
     var H = g.getHeight();
     var title = options.title;
@@ -20,9 +21,9 @@ E.showPrompt = function(msg,options) {
       g.fillRect((W/2)-w,44,(W/2)+w,44);
     }
     var lines = msg.split("\n");
-    var offset = (H - lines.length*16)/2;
+    var offset = (H - lines.length*FSIZE)/2;
     lines.forEach((line,y)=>
-      g.drawString(line,W/2,offset + y*16));    
+      g.drawString(line,W/2,offset + y*FSIZE));    
     var buttonWidths = 0;
     var buttonPadding = 48;
     btns.forEach(btn=>buttonWidths += buttonPadding+g.stringWidth(btn));

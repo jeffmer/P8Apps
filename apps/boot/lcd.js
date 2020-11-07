@@ -94,7 +94,7 @@ function brightness(v) {
 E.showMessage = function(msg,title) {
     if (!P8.awake) P8.wake();
     g.clear(1); // clear screen
-    g.reset().setFont("6x8",2).setFontAlign(0,0);
+    g.reset().setFont("Vector",24).setFontAlign(0,0);
     var W = g.getWidth();
     var H = g.getHeight();
     if (title) {
@@ -103,8 +103,8 @@ E.showMessage = function(msg,title) {
       g.fillRect((W/2)-w,44,(W/2)+w,45);
     }
     var lines = msg.split("\n");
-    var offset = (H - lines.length*16)/2;
-    lines.forEach((line,y)=>g.drawString(line,W/2,offset + y*16));
+    var offset = (H - lines.length*24)/2;
+    lines.forEach((line,y)=>g.drawString(line,W/2,offset + y*24));
     g.flip();
   };
   

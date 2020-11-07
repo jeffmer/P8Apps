@@ -98,9 +98,9 @@ E.showMessage = function(msg,title) {
     var W = g.getWidth();
     var H = g.getHeight();
     if (title) {
-      g.drawString(title,W/2,34);
+      g.drawString(title,W/2,24);
       var w = (g.stringWidth(title)+16)/2;
-      g.fillRect((W/2)-w,44,(W/2)+w,45);
+      g.fillRect((W/2)-w,34,(W/2)+w,34);
     }
     var lines = msg.split("\n");
     var offset = (H - lines.length*24)/2;

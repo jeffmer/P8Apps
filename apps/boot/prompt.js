@@ -18,7 +18,7 @@ E.showPrompt = function(msg,options) {
     if (title) {
       g.drawString(title,W/2,24);
       var w = (g.stringWidth(title)+16)/2;
-      g.fillRect((W/2)-w,24,(W/2)+w,34);
+      g.fillRect((W/2)-w,34,(W/2)+w,34);
     }
     var lines = msg.split("\n");
     var offset = (H - lines.length*FSIZE)/2;

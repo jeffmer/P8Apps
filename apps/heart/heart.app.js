@@ -99,6 +99,58 @@ var medianFilter = (function(){
   };
 })();
 
+/*
+var lpfFilter = E.compiledC(`
+// int filter(int)
+
+__attribute__((section(".text"))) float c[] = {0.1159525, 0.231905, 0.1159525,-0.7216814, 0.1854914};
+__attribute__((section(".text"))) float v1 = 0.0;
+__attribute__((section(".text"))) float v2 = 0.0;
+
+int  filter(int sample) {
+  float x = (float) sample;
+  float v = x - (c[3] * v1) - (c[4] * v2);
+  float y = (c[0] * v) + (c[1] * v1) + (c[2] * v2);
+  v2 = v1;
+  v1 = v;
+  return (int)y;
+}       
+`);
+*/
+
+var lpfFilter = (function(){
+  var bin=atob("AAAAAAAAAACBeO09gXhtPoF47T0dwDi/dfE9PhNLB+4QCntE0+0AatPtBVqT7QFq0+0GesPtAWq47sd6pe7metPtAlqn7sZ60+0DeoPtAHpm7qd65+4letPtBFrm7iV6/e7nehfukApwRwC/2v///w==");
+  return {
+    filter:E.nativeCall(29, "int(int)", bin),
+  };
+})();
+
+/*
+var hpfFilter = E.compiledC(`
+// int filter(int)
+
+__attribute__((section(".text"))) float c[] = {0.8703308, -1.7406616, 0.8703308, -1.723776, 0.7575469};
+__attribute__((section(".text"))) float v1 = 0.0;
+__attribute__((section(".text"))) float v2 = 0.0;
+
+int  filter(int sample) {
+  float x = (float) sample;
+  float v = x - (c[3] * v1) - (c[4] * v2);
+  float y = (c[0] * v) + (c[1] * v1) + (c[2] * v2);
+  v2 = v1;
+  v1 = v;
+  return (int)y;
+}       
+`);
+*/
+var hpfFilter = (function(){
+  var bin=atob("AAAAAAAAAAAAzl4/AM7evwDOXj+xpNy/mO5BPxNLB+4QCntE0+0AatPtBVqT7QFq0+0GesPtAWq47sd6pe7metPtAlqn7sZ60+0DeoPtAHpm7qd65+4letPtBFrm7iV6/e7nehfukApwRwC/2v///w==");
+  return {
+    filter:E.nativeCall(29, "int(int)", bin),
+  };
+})();
+
+
 var HRS = {
   avgtotal:0,
   NSAMPLE:24, // Exponential Moving average DC removal alpha = 1/NSAMPLE
@@ -136,20 +188,27 @@ var x =0;
 var lasty = 239;
 var interval;
 
+var stage1 = hpfFilter.filter;
+var stage2 = medianFilter.filter;
+var stage3 = maFilter.filter;
+var stage4 = lpfFilter.filter;
+
+
 function doread(){
   //var time= Date.now();
   var v =  HRS.read();
-  v =  dcFilter.filter(v);
-  v = medianFilter.filter(v);
-  v = maFilter.filter(v);
+  v =  stage1(v);
+  v = stage2(v);
+  v = stage3(v);
+  v = stage4(v);
   v = 120+v/4;
   v = v>239?239:v<0?0:v;
   g.setColor(0);
-  g.fillRect(x,0,x,239);
+  g.fillRect(x,0,x+1,239);
   g.setColor(0x07E0);
-  g.fillRect(x,lasty,x,239-v);
+  g.fillRect(x,lasty,x+1,239-v);
   lasty=239-v;
-  ++x;
+  x+=2;
   if (x>=240) x = 0;
   //time = Math.floor(Date.now()-time);
   //console.log("Time: "+time+"ms");
@@ -161,6 +220,7 @@ function test(){
   HRS.init();
   HRS.enable(true);
   dcFilter.init(24,0);
+  maFilter.init(5);
   interval = setInterval(doread,25);
   setTimeout(()=>{
       if(interval) clearInterval(interval); 

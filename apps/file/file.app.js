@@ -18,12 +18,10 @@ function showMainMenu() {
     },
     'Compact': () => {
       E.showMessage('Compacting...');
-      /*
       try {
         store.compact();
       } catch (e) {
       }
-      */
       showMainMenu();
     },
     'Apps': ()=> showApps(),

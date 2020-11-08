@@ -309,9 +309,10 @@ var isPressed = function(p,n) {
     if (bb) {selbut=n; drawButton(d,false);P8.buzz(40);}
     return bb;
 };
+
 buttons = function(p){
   if (isPressed(p,0)) checkMove(-1,0,0);
-  else if (isPressed(p,1)) checkMove(0,1,0); 
+  else if (isPressed(p,1)) while (checkMove(0,1,0));  
   else if (isPressed(p,2)) checkMove(1,0,0);
   else selbut=-1;
 };

@@ -1,6 +1,6 @@
 const store = require('Storage');
-E.showMenu = eval(store.read("menu.js"));
-E.showMessage = function(s){E.showMenu(); g.setFont("6x8",2).drawString(s,10,100);};
+eval(store.read("menu.js"));
+eval(store.read("prompt.js"));
 
 const boolFormat = (v) => v ? "On" : "Off";
 

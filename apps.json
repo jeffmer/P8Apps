@@ -74,7 +74,7 @@
   { "id": "file",
     "name": "Files",
     "icon": "file.png",
-    "version":"0.02",
+    "version":"0.03",
     "description": "App and File Manager",
     "tags": "tool",
     "allow_emulator":false,
@@ -197,5 +197,25 @@
       {"name":".trishig","url":"clock-tris-high"}
     ],
     "sortorder" : 5
-  }
+  },
+  {
+    "id": "gallifr",
+    "name": "Time Traveller's Chronometer",
+    "shortName": "Chrono",
+    "icon": "gallifr.png",
+    "version": "0.01",
+    "description": "A clock for time travellers. The light pie segment shows the minutes, the black circle, the hour. The dial itself reads 'time' just in case you forget.",
+    "tags": "clock",
+    "readme": "README.md",
+    "type": "clock",
+    "allow_emulator":true,
+    "storage": [
+      { "name": "gallifr.app.js", "url": "app.js" },
+      { "name": "gallifr.img", "url": "app-icon.js", "evaluate": true },
+      { "name": "gallifr.settings.js", "url": "settings.js" }
+    ],
+    "data": [
+      {"name":"gallifr.json"}
+    ]
+  },
 ]

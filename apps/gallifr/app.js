@@ -201,7 +201,7 @@ const drawClockFace = () => {
       g.setColor(0.1,0.7,0);
       break;
     case "blue":
-      g.setColor(0,0.3,0.8);
+      g.setColor(0,0.8,0.8);
       break;
     case "80s":
       g.setColor(1,1,1);
@@ -236,7 +236,9 @@ P8.on('sleep', (b) => {
   }
 });
 
-g.clear();
-startTimers();
-drawAll();
+setTimeout(()=>{
+  g.clear();
+  startTimers();
+  drawAll();
+},500);
 

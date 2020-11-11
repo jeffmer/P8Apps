@@ -164,15 +164,34 @@ var HRS = {
       I2C1.writeTo(0x44, a);
       return I2C1.readFrom(0x18,1)[0]; 
   },
-  init:() => {
-      HRS.writeByte(0x01,0x60); //reg ENABLE 12.5ms wait, (partly) 20ma drive
-      HRS.writeByte(0x0C,0x68); // reg PDRIVER 20ma driver power on
-      HRS.writeByte(0x16,0x88); //reg REG , HRS and ALS in 16-bit mode
-      HRS.writeByte(0x17,0x10); //reg HGAIN , 64x gain
+  enable:() => {
+    HRS.writeByte( 0x17, 0x10 );
+    HRS.writeByte( 0x16, 0x78 );
+    HRS.writeByte( 0x01, 0xe0 );	
+    HRS.writeByte( 0x0c, 0x2e );
   },
-  enable:(b) => {
-      if (b) HRS.writeByte(0x01,0xe0);
-      else HRS.writeByte(0x01,0x60);
+  disable:() => {
+    HRS.writeByte( 0x01, 0x08 );
+    HRS.writeByte( 0x02, 0x80 );
+    HRS.writeByte( 0x0c, 0x4e );
+    
+    HRS.writeByte( 0x16, 0x88 );
+    
+    HRS.writeByte( 0x0c, 0x22 );
+    HRS.writeByte( 0x01, 0xf0 );
+    HRS.writeByte( 0x0c, 0x02 );
+  
+    HRS.writeByte( 0x0c, 0x22 );
+    HRS.writeByte( 0x01, 0xf0 );
+    HRS.writeByte( 0x0c, 0x02 );
+    
+    HRS.writeByte( 0x0c, 0x22 );
+    HRS.writeByte( 0x01, 0xf0 );
+    HRS.writeByte( 0x0c, 0x02 );
+    
+    HRS.writeByte( 0x0c, 0x22 );
+    HRS.writeByte( 0x01, 0xf0 );
+    HRS.writeByte( 0x0c, 0x02 );
   },
   read:()=>{
       var m = HRS.readByte(0x09);
@@ -217,13 +236,12 @@ function doread(){
 function test(){
   g.clear();
   x=0;
-  HRS.init();
-  HRS.enable(true);
+  HRS.enable();
   dcFilter.init(24,0);
   maFilter.init(5);
   interval = setInterval(doread,42);
   setTimeout(()=>{
       if(interval) clearInterval(interval); 
-      HRS.enable(false);
+      HRS.disable();
   },40000);
 }

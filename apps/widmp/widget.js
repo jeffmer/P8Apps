@@ -16,16 +16,18 @@
     8: () => { moon[7](); g.setColor(BLACK).fillEllipse(mx - r / 2, my - r, mx + r / 2, my + r);}
   };
 
-  function moonPhase(d) {
-    var tmp, month = d.getMonth()+1, year = d.getFullYear(), day = d.getDate();
-    if (month < 3) {year--; month += 12;}
-    tmp = ((365.25 * year + 30.6 * ++month + day - NM) / MC);
-    return Math.round(((tmp - (tmp | 0)) * 7)+1);
+  function moonPhase(){
+    var lp = 2551443; 
+    var now = new Date();						
+    var new_moon = new Date(2020, 9, 15, 20, 35, 0);
+    var phase = ((now.getTime() - new_moon.getTime())/1000) % lp;
+    var ld =  Math.floor(phase /(24*3600)) + 1;
+    return Math.floor(ld*8/29.5309) +1;
   }
 
   function draw() {
     mx = this.x; my = this.y + 12;
-    moon[moonPhase(Date())]();
+    moon[moonPhase()]();
   }
 
   WIDGETS["widmoon"] = { area: "tl", width: 24, draw: draw };

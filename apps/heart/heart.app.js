@@ -166,14 +166,13 @@ var HRS = {
   },
   init:() => {
       HRS.writeByte(0x01,0x60); //reg ENABLE 12.5ms wait, (partly) 20ma drive
-      HRS.writeByte(0x0C,0x6E); // reg PDRIVER 20ma driver power on
+      HRS.writeByte(0x0C,0x68); // reg PDRIVER 20ma driver power on
       HRS.writeByte(0x16,0x88); //reg REG , HRS and ALS in 16-bit mode
       HRS.writeByte(0x17,0x10); //reg HGAIN , 64x gain
   },
   enable:(b) => {
-      var en = HRS.readByte(0x01);
-      en = b?en|0x80:en&~0x80;
-      HRS.writeByte(0x01,en);
+      if (b) HRS.writeByte(0x01,0xe0);
+      else HRS.writeByte(0x01,0x60);
   },
   read:()=>{
       var m = HRS.readByte(0x09);
@@ -188,6 +187,7 @@ var x =0;
 var lasty = 239;
 var interval;
 
+var stage0 = dcFilter.filter;
 var stage1 = hpfFilter.filter;
 var stage2 = medianFilter.filter;
 var stage3 = maFilter.filter;
@@ -199,8 +199,8 @@ function doread(){
   var v =  HRS.read();
   v =  stage1(v);
   v = stage2(v);
-  v = stage3(v);
   v = stage4(v);
+  //v = stage4(v);
   v = 120+v/4;
   v = v>239?239:v<0?0:v;
   g.setColor(0);
@@ -221,7 +221,7 @@ function test(){
   HRS.enable(true);
   dcFilter.init(24,0);
   maFilter.init(5);
-  interval = setInterval(doread,25);
+  interval = setInterval(doread,42);
   setTimeout(()=>{
       if(interval) clearInterval(interval); 
       HRS.enable(false);

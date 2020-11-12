@@ -225,7 +225,7 @@
     "description": "Measure your current heart rate",
     "tags": "health",
     "storage": [
-      {"name":"heart.app.js","url":"hreart.app.js"},
+      {"name":"heart.app.js","url":"heart.app.js"},
       {"name":"heart.img","url":"heartrate-icon.js","evaluate":true}
     ]
   }

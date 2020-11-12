@@ -1,7 +1,38 @@
- 
-/* Low pass, high pass and AGC filters adapted from Daniel Thompson's waspos heartrate module
+//driver for HRS3300
+/*
+var dcFilter = E.compiledC(`
+// void init(int, int)
+// int filter(int)
+// int avgDC()
+
+__attribute__((section(".text"))) int NSAMPLE = 24;
+__attribute__((section(".text"))) int BIAS = 0;
+__attribute__((section(".text"))) int sample_avg_total = 0;
+
+void init(int v, int bias){
+    NSAMPLE=v;
+    BIAS=bias;
+}
+
+//remove dc from sample
+int  filter(int sample) {
+    sample_avg_total += (sample - sample_avg_total/NSAMPLE);
+    return (sample - sample_avg_total/NSAMPLE)+BIAS;
+}
+// return average dc
+int avgDC() {return sample_avg_total/NSAMPLE;}
+       
+`);
 */
 
+var dcFilter = (function(){
+  var bin=atob("AAAAABgAAAAAAAAAAkt7RAnLkPvz8HBH7v///wdJeUQwtZHoJACS+/X0BBujGAtgk/v188MaiGgYRDC93v///wJLe0RYYJlgcEcAv7r///8=");
+  return {
+    init:E.nativeCall(65, "void(int, int)", bin),
+    filter:E.nativeCall(29, "int(int)", bin),
+    avgDC:E.nativeCall(13, "int()", bin),
+  };
+})();
 /*
 var maFilter = E.compiledC(`
 // void init(int)
@@ -31,8 +62,8 @@ var maFilter = (function(){
     filter:E.nativeCall(73, "int(int)", bin),
   };
 })();
-
 /*
+
 var medianFilter = E.compiledC(`
 // int filter(int)
 
@@ -145,48 +176,12 @@ var agcFilter = (function(){
   };
 })();
 
-/*
-var pulseDetector = E.compiledC(`
-// int isBeat(int)
-
-__attribute__((section(".text"))) int cycle_max = 20;
-__attribute__((section(".text"))) int cycle_min = -20;
-__attribute__((section(".text"))) bool positive  = false;
-__attribute__((section(".text"))) int  prev_sig = 0;
-
-//  Returns true if a beat is detected
-bool isBeat(int signal) {
-  bool beat = false;
-  //while positive slope record maximum
-  if (positive && (signal > prev_sig)) cycle_max = signal;  
-  //while negative slope record minimum
-  if (!positive && (signal < prev_sig)) cycle_min = signal;
-  //  positive to negative i.e peak so declare beat
-  if (positive && (signal < prev_sig)) {
-    int amplitude = cycle_max - cycle_min;
-    if (amplitude > 20 && amplitude < 3000) {
-      beat = true;
-    }
-    cycle_min = 0; positive = false;
-  } 
-  //negative to positive i.e valley bottom 
-  if (!positive && (signal > prev_sig)) {
-     cycle_max= 0; positive = true;
-  } 
-  prev_sig = signal; // save signal
-  return beat;
-}  
-`);
-*/
-
-var pulseDetector = (function(){
-  var bin=atob("AAAAAAAAAAAUAAAA7P///xZKekQTeOuxU2iDQgHakGAe4B3d0WiTaFsaFTtA9qIxi0JP8AABjL8AIwEj0WARcAtKekRRaIhCC90AIZFgASERcAbgU2iYQgDa0GAAI+/nACMESnpEUGAYRnBH6v///7r///+Y////");
-  return {
-    isBeat:E.nativeCall(17, "int(int)", bin),
-  };
-})();
-
 var HRS = {
+  avgtotal:0,
+  NSAMPLE:24, // Exponential Moving average DC removal alpha = 1/NSAMPLE
+  NSLOT:4,
+  next:0,
+  buf:Int16Array(4),
   writeByte:(a,d) => { 
       I2C1.writeTo(0x44,a,d);
   }, 
@@ -231,70 +226,51 @@ var HRS = {
   },
 };
 
-P8.setLCDTimeout(300);
+P8.setLCDTimeout(600);
 var x =0;
 var lasty = 239;
-var lastPeak =0;
 var interval;
 
-var f1 = hpfFilter.filter;
-var f2 = medianFilter.filter;
-var f3 = agcFilter.filter;
-var f4 = lpfFilter.filter;
-var bf = maFilter.filter;
-var det = pulseDetector.isBeat;
+var stage0 = dcFilter.filter;
+var stage1 = hpfFilter.filter;
+var stage11 = medianFilter.filter;
+var stage2 = agcFilter.filter;
+var stage3 = maFilter.filter;
+var stage4 = lpfFilter.filter;
+
+
 
 function doread(){
-  var v =  f4(f3(f2(f1(HRS.read()))));
-  v = 139-v;
-  v = v>239?239:v<40?40:v;
-  if (det(v)) {
-    var peakTime = Date.now();
-    var bpm = Math.floor(60000/(peakTime-lastPeak));
-    if (bpm > 0 && bpm < 200) {
-      bpm = bf(bpm);
-      g.setColor(-1);
-      g.drawString("BPM: "+bpm+" ",120,10,true);
-    }
-    lastPeak=peakTime;
-  }
+  //var time= Date.now();
+  var v =  HRS.read();
+  v =  stage1(v);
+  v =  stage11(v);
+  v = stage2(v);
+  v = stage4(v);
+  //v = stage4(v);
+  //v = stage4(v);
+  v = 120+v;
+  v = v>239?239:v<0?0:v;
   g.setColor(0);
-  g.fillRect(x,40,x+1,239);
+  g.fillRect(x,0,x+1,239);
   g.setColor(0x07E0);
-  g.fillRect(x,lasty,x+1,v);
-  lasty=v;
+  g.fillRect(x,lasty,x+1,239-v);
+  lasty=239-v;
   x+=2;
   if (x>=240) x = 0;
+  //time = Math.floor(Date.now()-time);
+  //console.log("Time: "+time+"ms");
 }
 
-function startMeasure() {
-  if (interval) return;
+function test(){
   g.clear();
-  g.reset();
-  g.setFont("6x8",2);
-  g.drawString("BPM: -- ",120,10,true);
   x=0;
   HRS.enable();
+  dcFilter.init(24,0);
+  maFilter.init(5);
   interval = setInterval(doread,40);
+  setTimeout(()=>{
+      if(interval) clearInterval(interval); 
+      HRS.disable();
+  },40000);
 }
-
-function stopMeasure() {
-  if(interval) {
-    interval=clearInterval(interval); 
-    HRS.disable();
-    g.drawString("STOPPED",120,30,true);
-  }
-}
-
-TC.on("swipe",(dir)=>{
-  if (dir==TC.UP) startMeasure();
-  else if (dir==TC.DOWN) stopMeasure();
-});
-
-E.on("kill",()=>{stopMeasure();});
-
-setTimeout(()=>{
-   E.showMessage("Swipe up\n to start.\n Swipe down\n to stop.","Heart Rate");
-},500);
-
-

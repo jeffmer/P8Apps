@@ -348,7 +348,7 @@ function startMeasure() {
   x=0;
   HRS.enable();
   interval = setInterval(doread,40);
-  bpminterval = setInterval(showBPM,5000);
+  bpminterval = setInterval(showBPM,2000);
 }
 
 function stopMeasure() {

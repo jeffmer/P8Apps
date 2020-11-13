@@ -21,8 +21,9 @@
     var now = new Date();						
     var new_moon = new Date(2020, 9, 15, 20, 35, 0);
     var phase = ((now.getTime() - new_moon.getTime())/1000) % lp;
-    var ld =  Math.floor(phase /(24*3600)) + 1;
-    return Math.floor(ld*8/29.5309) +1;
+    var ld =  Math.floor(phase /(24*3600));
+    ld = Math.floor((ld+2)%30);
+    return Math.floor(ld*8/30) +1;
   }
 
   function draw() {

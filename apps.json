@@ -221,7 +221,7 @@
   { "id": "heart",
     "name": "Heart",
     "icon": "heartrate.png",
-    "version":"0.02",
+    "version":"0.03",
     "description": "Measure your current heart rate",
     "tags": "health",
     "storage": [

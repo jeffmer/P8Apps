@@ -3,6 +3,60 @@
 */
 
 /*
+var correlator = E.compiledC(`
+// void put(int)
+// int conf(void)
+// int bpm(void)
+
+__attribute__((section(".text"))) const int NSLOT = 128;
+__attribute__((section(".text"))) char buffer[NSLOT];
+__attribute__((section(".text"))) int next = 0;
+__attribute__((section(".text"))) int confidence = 0;
+
+void put(int v){
+    buffer[next]=v;
+    next = (next+1)%NSLOT;
+}
+
+int conf() {return confidence;}
+
+int bpm() {
+    const int CMIN = 7; // 60000/(200bpm * 40ms)
+    const int CMAX = 37; //60000/(40bpm * 40ms)
+    int minCorr = 0x7FFFFFFF;
+    int maxCorr = 0;
+    int minIdx = 0;
+    for (int c=CMIN; c<CMAX;c++){
+        int s = 0;
+        int a = next;
+        int b = (next + c) % NSLOT;
+        //correlate
+        for (int i = 0;i<NSLOT-CMAX;i++){
+            int d = buffer[b]-buffer[a];
+            b = (b+1)%NSLOT;
+            a = (a+1)%NSLOT;
+            s+=d*d;
+        }
+        if (s<minCorr) {minCorr=s; minIdx=c;}
+        if (s>maxCorr) maxCorr = s;
+    }
+    confidence = 120 - (minCorr/600);
+    if (maxCorr<10000) confidence -= (10000-maxCorr)/50;
+    confidence = confidence<0?0:confidence>100?100:confidence;
+    return  minIdx==0?0:(60000/(minIdx*40));
+}
+`);
+*/
+var correlator = (function(){
+  var bin=atob("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3p8EM8T39EACDX+ACAByMCRm/wAEU3TAPrCAEMQAAsvr8E8f80ZPB/BAE0QUZP8FsMACYH6wQOnvgEkAfrAQ6e+ATgzusJDgTxAQkpTAnqBAQALAHxAQkmSbi/BPH/NAnqAQG8v2TwfwQBNAApvr8B8f8xYfB/AQExvPEBDA77DmbX0a5CvL8YRjVGATOyQri/MkYlK77Rb/QfcQtEQvIPcYpClfvz8wPxeAMC3RNKekQJ4ML1HFIQMm/wMQGS+/HyE0QOSnpEwviEMA1KekTS+IQwZCuov2QjI+rjc8L4hDAosSgjWENO9mAjk/vw8L3o8IN/AACAbv///8T+//+u/v//pv7//wJLe0TT+IQAcEcAv2r+//8JSXlEC2jKGBBxWhwFSxNAACu+vwPx/zNj8H8DATMLYHBHAL9/AACAWv7//w==");
+  return {
+    put:E.nativeCall(417, "void(int)", bin),
+    conf:E.nativeCall(401, "int(void)", bin),
+    bpm:E.nativeCall(137, "int(void)", bin),
+  };
+})();
+
+/*
 var avgMedFilter = E.compiledC(`
 // int filter(int)
 
@@ -244,6 +298,7 @@ var x =0;
 var lasty = 239;
 var lastPeak =0;
 var interval;
+var bpminterval;
 
 var f1 = hpfFilter.filter;
 var f2 = medianFilter.filter;
@@ -251,18 +306,20 @@ var f3 = agcFilter.filter;
 var f4 = lpfFilter.filter;
 var bf = avgMedFilter.filter;
 var det = pulseDetector.isBeat;
+var put = correlator.put;
 
 function doread(){
   var v =  f4(f3(f2(f1(HRS.read()))));
   v = 139-v;
   v = v>239?239:v<40?40:v;
+  put(v);
   if (det(v)) {
     var peakTime = Date.now();
     var bpm = Math.floor(60000/(peakTime-lastPeak));
     if (bpm > 0 && bpm < 200) {
       bpm = bf(bpm);
       g.setColor(-1);
-      g.drawString("BPM: "+bpm+" ",120,10,true);
+      g.drawString("BPM: "+bpm+" ",120,0,true);
     }
     lastPeak=peakTime;
   }
@@ -275,22 +332,31 @@ function doread(){
   if (x>=240) x = 0;
 }
 
+function showBPM(){
+  var bpm = correlator.bpm();
+  var conf = correlator.conf();
+  g.setColor(0xFFE0).drawString("BPM: "+bpm+" ",10,0,true);
+  g.drawString("CNF: "+conf+"%  ",10,20,true);
+}
+
 function startMeasure() {
   if (interval) return;
   g.clear();
   g.reset();
   g.setFont("6x8",2);
-  g.drawString("BPM: -- ",120,10,true);
+  g.drawString("BPM: -- ",120,0,true);
   x=0;
   HRS.enable();
   interval = setInterval(doread,40);
+  bpminterval = setInterval(showBPM,5000);
 }
 
 function stopMeasure() {
   if(interval) {
     interval=clearInterval(interval); 
+    if (bpminterval) bpminterval = clearInterval(bpminterval);
     HRS.disable();
-    g.drawString("STOPPED",120,30,true);
+    g.drawString("STOPPED",120,20,true);
   }
 }
 

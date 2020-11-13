@@ -3,52 +3,23 @@
 */
 
 /*
-var maFilter = E.compiledC(`
-// void init(int)
-// int filter(int)
-
-__attribute__((section(".text"))) int NSLOT = 8;
-__attribute__((section(".text"))) int nextslot = 0;
-__attribute__((section(".text"))) int buffer[16];
-
-void init(int n){
-  NSLOT = n<=0?1:n>16?16:n;
-}
-
-int filter(int value) {
-  buffer[nextslot] = value;
-  nextslot = (nextslot+1) % NSLOT;
-  int total = 0;
-  for(int i=0; i<NSLOT; ++i) total += buffer[i];
-  return total/NSLOT;
-}        
-`);
-*/
-var maFilter = (function(){
-  var bin=atob("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAADkl5RBC1C2gNTAHrgwIBM1BgSmyT+/LwAvsQMwtgACMYRnxEk0IF2iEdUfgjEAEzCET355D78vAQvQC/sv///5L///8AKAPdECiovxAgAOABIAJLe0RYZHBHAL9g////");
-  return {
-    init:E.nativeCall(141, "void(int)", bin),
-    filter:E.nativeCall(73, "int(int)", bin),
-  };
-})();
-
-/*
-var medianFilter = E.compiledC(`
+var avgMedFilter = E.compiledC(`
 // int filter(int)
 
 __attribute__((section(".text"))) int NSLOT = 7;
+__attribute__((section(".text"))) int MID = 3;
 __attribute__((section(".text"))) int nextslot = 0;
 __attribute__((section(".text"))) int buffer[7];
 
 int filter(int value) {
-  int mbuf[7];
+  int mbuf[NSLOT];
   buffer[nextslot] = value;
   nextslot = (nextslot+1) % NSLOT;
   for(int p=0; p<NSLOT; ++p)mbuf[p]=buffer[p];
   int minValue;
-  for(int i=0;i<4;++i){
+  for(int i=0;i<=MID;++i){
       minValue=mbuf[i];
-      for (int j = i+1;j<7;++j){
+      for (int j = i+1;j<NSLOT;++j){
           if (mbuf[j]<minValue){
               minValue=mbuf[j];
               mbuf[j] = mbuf[i];
@@ -56,17 +27,54 @@ int filter(int value) {
           }
       }
   }
-  return mbuf[2];
-}        
+  return (mbuf[MID-1]+mbuf[MID]+mbuf[MID+1])/3;
+}
+`);
+*/
+var avgMedFilter = (function(){
+  var bin=atob("BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAPi1Jkx8RACvI2iaAAoyIvAHAq3rAg1iaATrggUBMqhgkvvz8AP7ECJiYB1MaUYAInxEmkIH2gTxCABQ+CIAQfgiAAEy9ecXSnpEACBUagofoEIU3FL4BG8BMJZGBUadQvbaXvgEz2ZFxL8WaM74AGAF8QEFxL/C+ADAZkbv5wHrhAJR+CQwUvgEDBhEU2gDRAMgk/vw8L1G+L0Av9D///+k////jP///w==");
+  return {
+    filter:E.nativeCall(41, "int(int)", bin),
+  };
+})();
+
+/*
+var medianFilter = E.compiledC(`
+// int filter(int)
+
+__attribute__((section(".text"))) int NSLOT = 5;
+__attribute__((section(".text"))) int MID = 2;
+__attribute__((section(".text"))) int nextslot = 0;
+__attribute__((section(".text"))) int buffer[7];
+
+int filter(int value) {
+  int mbuf[NSLOT];
+  buffer[nextslot] = value;
+  nextslot = (nextslot+1) % NSLOT;
+  for(int p=0; p<NSLOT; ++p)mbuf[p]=buffer[p];
+  int minValue;
+  for(int i=0;i<=MID;++i){
+      minValue=mbuf[i];
+      for (int j = i+1;j<NSLOT;++j){
+          if (mbuf[j]<minValue){
+              minValue=mbuf[j];
+              mbuf[j] = mbuf[i];
+              mbuf[i]=minValue;
+          }
+      }
+  }
+  return mbuf[MID];
+}
 `);
 */
 
 var medianFilter = (function(){
-  var bin=atob("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAGEp6RDC1E2gXTALrgwEBM0hgEWqT+/HwAfsQMxNgibAAI3xEi0ID22tGBKwHrQfgIh1S+CMAAapC+CMAATPx51P4BA8aRlL4BB+BQr+/GGgQYBlgCEaqQvXRo0Lw0QOYCbAwvdb///+2////");
+  var bin=atob("BQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAACFJeUT4tQtomgAKMiLwBwIAr63rAg1KaAHrggUBMqhgkvvz8AP7ECIYSEpgbEYAInhEmkIH2gDxCAFR+CIQRPgiEAEy9ecSSnpEACHS+CTAIh9hRRPcUvgEbwExFUYIRphC9tpV+ATvdkXEvxZoLmAA8QEAxL/C+ADgdkbw51T4LAC9Rvi9AL/S////pP///4z///8=");
   return {
-    filter:E.nativeCall(37, "int(int)", bin),
+    filter:E.nativeCall(41, "int(int)", bin),
   };
 })();
+
 
 /*
 var lpfFilter = E.compiledC(`
@@ -241,7 +249,7 @@ var f1 = hpfFilter.filter;
 var f2 = medianFilter.filter;
 var f3 = agcFilter.filter;
 var f4 = lpfFilter.filter;
-var bf = maFilter.filter;
+var bf = avgMedFilter.filter;
 var det = pulseDetector.isBeat;
 
 function doread(){
@@ -287,14 +295,14 @@ function stopMeasure() {
 }
 
 TC.on("swipe",(dir)=>{
-  if (dir==TC.UP) startMeasure();
-  else if (dir==TC.DOWN) stopMeasure();
+  if (dir==TC.RIGHT) startMeasure();
+  else if (dir==TC.LEFT) stopMeasure();
 });
 
 E.on("kill",()=>{stopMeasure();});
 
 setTimeout(()=>{
-   E.showMessage("Swipe up\n to start.\n Swipe down\n to stop.","Heart Rate");
+   E.showMessage("Swipe right\n to start.\n Swipe left\n to stop.","Heart Rate");
 },500);
 
 

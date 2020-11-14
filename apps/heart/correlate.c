@@ -1,4 +1,3 @@
-
 /*
 var correlator = E.compiledC(`
 // void put(int)
@@ -25,8 +24,8 @@ int bpm() {
     int minIdx = 0;
     for (int c=CMIN; c<CMAX;c++){
         int s = 0;
-        int a = next;
-        int b = (next + c) % NSLOT;
+        int a = (next-c)>0? (next-c) : (NSLOT+next-c);
+        int b = next;
         //correlate
         for (int i = 0;i<NSLOT-CMAX;i++){
             int d = buffer[b]-buffer[a];
@@ -38,17 +37,16 @@ int bpm() {
         if (s>maxCorr) maxCorr = s;
     }
     confidence = 120 - (minCorr/600);
-    if (maxCorr<10000) confidence -= (10000-maxCorr)/50;
     confidence = confidence<0?0:confidence>100?100:confidence;
     return  minIdx==0?0:(60000/(minIdx*40));
 }
 `);
 */
 var correlator = (function(){
-  var bin=atob("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3p8EM8T39EACDX+ACAByMCRm/wAEU3TAPrCAEMQAAsvr8E8f80ZPB/BAE0QUZP8FsMACYH6wQOnvgEkAfrAQ6e+ATgzusJDgTxAQkpTAnqBAQALAHxAQkmSbi/BPH/NAnqAQG8v2TwfwQBNAApvr8B8f8xYfB/AQExvPEBDA77DmbX0a5CvL8YRjVGATOyQri/MkYlK77Rb/QfcQtEQvIPcYpClfvz8wPxeAMC3RNKekQJ4ML1HFIQMm/wMQGS+/HyE0QOSnpEwviEMA1KekTS+IQwZCuov2QjI+rjc8L4hDAosSgjWENO9mAjk/vw8L3o8IN/AACAbv///8T+//+u/v//pv7//wJLe0TT+IQAcEcAv2r+//8JSXlEC2jKGBBxWhwFSxNAACu+vwPx/zNj8H8DATMLYHBHAL9/AACAWv7//w==");
+  var bin=atob("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3p8EMvTX1EBybV+ACAACCo8QcEb/AAQwAsIkZBRti/BPGAAk/wWwwAJwXrAQ6e+ASQBesCDp74BODO6wkOAfEBCR5JCeoBAQApAvEBCRtKuL8B8f8xCeoCAry/YfB/AQExACq+vwLx/zJi8H8CATK88QEMDvsOd9fRn0K4vzBGBvEBBri/O0YlLgTx/zTD0QtKk/vy8wxKeDNkK6i/ZCN6RCPq43PC+IQwKLEoI1hDTvZgI5P78PC96PCDfwAAgKj9//9u////1P7//wJLe0TT+IQAcEcAv6b+//8JSXlEC2jKGBBxWhwFSxNAACu+vwPx/zNj8H8DATMLYHBHAL9/AACAlv7//w==");
   return {
-    put:E.nativeCall(417, "void(int)", bin),
-    conf:E.nativeCall(401, "int(void)", bin),
+    put:E.nativeCall(357, "void(int)", bin),
+    conf:E.nativeCall(341, "int(void)", bin),
     bpm:E.nativeCall(137, "int(void)", bin),
   };
 })();

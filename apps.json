@@ -223,6 +223,7 @@
     "icon": "heartrate.png",
     "version":"0.03",
     "description": "Measure your current heart rate",
+    "readme": "README.md",
     "tags": "health",
     "storage": [
       {"name":"heart.app.js","url":"heart.app.js"},

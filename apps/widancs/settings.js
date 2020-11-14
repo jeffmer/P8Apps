@@ -38,7 +38,7 @@
              format:v=>v?'Yes':'No',
              onchange:setcat.bind(null,i)
         };
-    menu['< Back'] = ()=>{save(); showMain();};
+    menu['< Back'] = ()=>{save();setTimeout(showMain,200);};
     return E.showMenu(menu);
   }
 

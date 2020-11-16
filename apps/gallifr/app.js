@@ -184,7 +184,7 @@ const drawMinuteHand = () => {
 const drawHourHand = () => {
   g.setColor(0,0,0);
   //angle = currentDate.getMinutes()/60 * cirRad;
-  angle = currentDate.getHours()/12 * cirRad;
+  angle = (currentDate.getHours()+currentDate.getMinutes()/60)/12 * cirRad;
   g.fillCircle(
     Math.round(centerX + Math.sin(angle) * radius * (1-proportion)),
     Math.round(centerY - Math.cos(angle) * radius * (1-proportion)),

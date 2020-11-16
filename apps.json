@@ -175,12 +175,16 @@
     "name": "21",
     "shortName":"21",
     "icon": "blackjack.png",
-    "version":"0.01",
+    "version":"0.02",
     "description": "Simple implementation of card game Black Jack",
     "tags": "game",
     "allow_emulator":true,
     "storage": [
       {"name":"blackjack.app.js","url":"blackjack.app.js"},
+      {"name":"hearts.js","url":"hearts.js"},
+      {"name":"spades.js","url":"spades.js"},
+      {"name":"clubs.js","url":"clubs.js"},
+      {"name":"diamonds.js","url":"diamonds.js"},
       {"name":"blackjack.img","url":"blackjack-icon.js","evaluate":true}
     ]
   },

@@ -76,7 +76,6 @@ function match(t){
     deck[first.R*6+first.C].State =2;
     deck[t.R*6+t.C].State =2;
     ++pairs;
-    if (pairs==12) E.showMessage("Game Over\nTries: "+tries,"PAIRS");
   } else {
     deck[first.R*6+first.C].State =0;
     deck[t.R*6+t.C].State =0;
@@ -88,6 +87,7 @@ function match(t){
     drawCard(first.R,first.C);
     first=null;
     matching=false;
+    if (pairs==12) E.showMessage("Game Over\nTries: "+tries,"PAIRS");
   },2000);
 }
 

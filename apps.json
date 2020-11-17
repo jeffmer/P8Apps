@@ -178,7 +178,7 @@
     "version":"0.02",
     "description": "Simple implementation of card game Black Jack",
     "tags": "game",
-    "allow_emulator":true,
+    "allow_emulator":false,
     "storage": [
       {"name":"blackjack.app.js","url":"blackjack.app.js"},
       {"name":"hearts.js","url":"hearts.js"},
@@ -186,7 +186,22 @@
       {"name":"clubs.js","url":"clubs.js"},
       {"name":"diamonds.js","url":"diamonds.js"},
       {"name":"blackjack.img","url":"blackjack-icon.js","evaluate":true}
-    ]
+    ],
+    "sortorder" : 10
+  },
+  { "id": "pairs",
+    "name": "Pairs",
+    "shortName":"Pairs",
+    "icon": "pairs.png",
+    "version":"0.01",
+    "description": "Pairs matching card game",
+    "tags": "game",
+    "allow_emulator":false,
+    "storage": [
+      {"name":"pairs.app.js","url":"pairs.app.js"},
+      {"name":"pairs.img","url":"pairs_icon.js","evaluate":true}
+    ],
+    "sortorder" : 10
   },
   { "id": "clotris",
     "name": "Tetris",

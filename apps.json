@@ -33,11 +33,12 @@
   { "id": "setting",
     "name": "Setting",
     "icon": "setting.png",
-    "version":"0.02",
+    "version":"0.03",
     "description": "A menu for aadjusting P8 settings",
     "tags": "tool,system",
     "storage": [
       {"name":"setting.app.js","url":"setting.app.js"},
+      {"name":"bletime.js","url":"bletime.js"},
       {"name":"setting.img","url":"setting-icon.js","evaluate":true }
     ],
     "sortorder" : -2

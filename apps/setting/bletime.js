@@ -81,7 +81,6 @@ function advert(){
             dt.setFullYear(d.buffer[1]*256+d.buffer[0],d.buffer[2]-1,d.buffer[3]);
             dt.setHours(d.buffer[4],d.buffer[5],d.buffer[6]);
             setTime(dt.getTime()/1000);
-            state.gatt.disconnect().then(function(){NRF.sleep();});
             E.showAlert("Success!").then(()=>{E.showMenu(menu);});
         }).catch(function(e){
             g.setFont("6x8",2).drawString("ERROR "+e,20,20);

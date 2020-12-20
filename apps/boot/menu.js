@@ -1,5 +1,5 @@
 E.showMenu = function(items) {
-    var pal = new Uint16Array([0x0000,0x000F,0x03F7,0xFFFF]);
+    var pal = new Uint16Array([0x0000,0x000F,0x03FF,0xFFFF]);
     var b = P8.buffer;
     if (!b) {
          b = Graphics.createArrayBuffer(240,180,2,{msb:true});

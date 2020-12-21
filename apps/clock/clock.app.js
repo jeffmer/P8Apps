@@ -12,24 +12,6 @@ function stopdraw() {
   g.clear();
 }
 
-function widbat(){
-    var x = 140;
-    var y = 0;
-    function getBattery(){
-        var v = P8.batV();
-        v = v<3.7?3.7:v;
-        return Math.floor((v-3.7)*200);
-    }
-    var s = 39;
-    g.reset();
-    g.setColor(0xFFFF);
-    g.fillRect(x,y+2,x+s-4,y+21);
-    g.clearRect(x+2,y+4,x+s-6,y+19);
-    g.fillRect(x+s-3,y+10,x+s,y+14);
-    g.setColor(0x07E0).fillRect(x+4,y+6,x+4+getBattery()*(s-12)/100,y+17);
-    g.flip();
-}
-
 function startdraw() {
   g.reset();
   face.init();

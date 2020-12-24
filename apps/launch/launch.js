@@ -21,7 +21,7 @@ var page = 0;
 function draw_icon(p,n,selected) {
     var x = (n%3)*80; 
     var y = n>2?130:40;
-    (selected?g.setColor(0.3,0.3,0.3):g.setColor(0,0,0)).fillRect(x,y,x+79,y+89);
+    (selected?g.setColor(0.7,0.7,0.7):g.setColor(0,0,0)).fillRect(x,y,x+79,y+89);
     g.drawImage(s.read(apps[p*6+n].icon),x+10,y+10,{scale:1.25});
     g.setColor(-1).setFontAlign(0,-1,0).setFont("6x8",1).drawString(apps[p*6+n].name,x+40,y+74);
 }

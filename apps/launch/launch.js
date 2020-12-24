@@ -21,13 +21,13 @@ var page = 0;
 function draw_icon(p,n,selected) {
     var x = (n%3)*80; 
     var y = n>2?130:40;
-    (selected?g.setColor(0.8,0.8,1.0):g.setColor(0.5,0.5,1.0)).fillRect(x,y,x+79,y+89);
+    (selected?g.setColor(0.3,0.3,0.3):g.setColor(0,0,0)).fillRect(x,y,x+79,y+89);
     g.drawImage(s.read(apps[p*6+n].icon),x+10,y+10,{scale:1.25});
-    g.setColor(-1).setFontAlign(0,-1,0).setFont("6x8",2).drawString(apps[p*6+n].name,x+40,y+74);
+    g.setColor(-1).setFontAlign(0,-1,0).setFont("6x8",1).drawString(apps[p*6+n].name,x+40,y+74);
 }
 
 function drawPage(p){
-    g.setColor(0.5,0.5,1.0).fillRect(0,0,239,239);
+    g.setColor(0,0,0).fillRect(0,0,239,239);
     g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Apps ("+(p+1)+"/"+Npages+")",120,12);
     for (var i=0;i<6;i++) {
         if (!apps[p*6+i]) return i;

@@ -13,7 +13,7 @@ For a brand-new P8, you need to follow the instructions [here](https://github.co
 
 [espruino_2v08.63_p8_DBUF_FIX2.zip](https://github.com/jeffmer/P8Apps/blob/main/firmware/espruino_2v08.63_p8_DBUF_FIX2.zip)
 
-This build has a modified `lcd_spi_unbuf` module that works with SPI FLASH. The build makes the full 4 megabytes available to Espruino applications. In addition, there is a small hack to bluetooth to support the ANCS widget that connects to iPhones.
+This build has a modified `lcd_spi_unbuf` module that works with SPI FLASH. The build makes the full 4 megabytes available to Espruino applications. In addition, there is a small hack to bluetooth to support the ANCS widget that connects to an iPhone.
 
 Once Espruino is involved use the [P8 App Loader](https://jeffmer.github.io/P8Apps/) to load `Bootloader`, `Launcher` and `Settings` followed by the apps and widgets you want.
 
@@ -33,7 +33,6 @@ To mitigate this risk, `boot` sets a watchdog timer and if you press the button 
 @ATC1441, reverse engineered the DaFit app and wrote [DaFlasher](https://play.google.com/store/apps/details?id=com.atcnetz.paatc.patc&gl=US) which allows you to replace the firmware the P8 comes with.
 
 @Fanoush, for the Espruino builds/bootloader and his help with getting the LCD driver to work.
-
 
 @gfwilliams, for [Espruino](https://www.espruino.com/) and for the Bangle App Loader used here. *If you want a hassle free watch you can program off the shelf get a Bangle.js.*
 

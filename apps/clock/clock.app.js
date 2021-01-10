@@ -1,9 +1,10 @@
 var FACES = [];
-var iface = 0;
 var STOR = require("Storage");
 eval(STOR.read("prompt.js"));
 eval(STOR.read("widgets.js"));
 STOR.list(/\.face\.js$/).forEach(face=>FACES.push(eval(require("Storage").read(face))));
+var lastface = STOR.readJSON("clock.json") || {pinned:0}
+var iface = lastface.pinned;
 var face = FACES[iface]();
 var intervalRefSec;
 
@@ -58,6 +59,13 @@ function setButtons(){
     else if (dir == TC.LEFT) newFace(-1);
   });
 }
+
+TC.on('longtouch',()=>{
+    if (iface!=lastface.pinned){
+      lastface.pinned=iface;
+      STOR.write("clock.json",lastface);
+    }
+});
 
 P8.loadWidgets();
 

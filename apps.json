@@ -242,12 +242,12 @@
   { "id": "heart",
     "name": "Heart",
     "icon": "heartrate.png",
-    "version":"0.05",
+    "version":"0.06",
     "description": "Measure your current heart rate",
     "readme": "README.md",
     "tags": "health",
     "storage": [
-      {"name":"heart.app.js","url":"heart.app.js"},
+      {"name":"heart.app.js","url":"heart.min.js"},
       {"name":"heart.img","url":"heartrate-icon.js","evaluate":true}
     ]
   }

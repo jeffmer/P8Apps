@@ -252,11 +252,11 @@ var pulseDetector = (function(){
 
 var HRS = {
   writeByte:(a,d) => { 
-      I2C1.writeTo(0x44,a,d);
+      P8I2C.writeTo(0x44,a,d);
   }, 
   readByte:(a) => {
-      I2C1.writeTo(0x44, a);
-      return I2C1.readFrom(0x44,1)[0]; 
+      P8I2C.writeTo(0x44, a);
+      return P8I2C.readFrom(0x44,1)[0]; 
   },
   enable:() => {
     HRS.writeByte( 0x17, 0x10 );

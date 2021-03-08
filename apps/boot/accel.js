@@ -4,11 +4,11 @@ var ACCEL = {
     faceuptime:0,
     faceup:false,
     writeByte:(a,d) => { 
-        I2C1.writeTo(0x18,a,d);
+        P8I2C.writeTo(0x18,a,d);
     }, 
     readBytes:(a,n) => {
-        I2C1.writeTo(0x18, a);
-        return I2C1.readFrom(0x18,n); 
+        P8I2C.writeTo(0x18, a);
+        return P8I2C.readFrom(0x18,n); 
     },
     init:() => {
         var id = ACCEL.readBytes(0x0F,1)[0];

@@ -1,7 +1,4 @@
 // touch driver
-
-I2C1.setup({scl:D7,sda:D6,bitrate:200000});
-
 const TOUCH_PIN = D28;
 const RESET_PIN = D13;
 
@@ -11,11 +8,11 @@ var TC = {
     DOWN:1, UP:2, LEFT:3, RIGHT:4, CLICK:5, LONG:12,
     _wid:undefined,
     writeByte:(a,d) => { 
-        I2C1.writeTo(0x15,a,d);
+        P8I2C.writeTo(0x15,a,d);
     }, 
     readBytes:(a,n) => {
-        I2C1.writeTo(0x15, a);
-        return I2C1.readFrom(0x15,n); 
+        P8I2C.writeTo(0x15, a);
+        return P8I2C.readFrom(0x15,n); 
     },
     getXY:()=>{
         var _data = TC.readBytes(0x00,8);

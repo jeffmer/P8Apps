@@ -1,6 +1,22 @@
 
-E.enableWatchdog(15, true);
+function KickWd(){
+    if(!D17.read())E.kickWatchdog();
+}
+var wdint=setInterval(KickWd,5000); // 5 secs
+E.enableWatchdog(20, false); // 20 secs
+E.kickWatchdog();
+
 const STOR = require("Storage");
+
+function anom89(){
+    poke8(0x40003FFC,0);
+    poke8(0x40003FFC,1);
+    SPI1.setup({sck:D2, mosi:D3, baud: 8000000});
+}
+
+var P8I2C = new I2C();
+P8I2C.setup({scl:D7,sda:D6,bitrate:200000});
+
 const P8 = {
     ON_TIME: 10,
     BRIGHT : 3,
@@ -9,7 +25,6 @@ const P8 = {
     awake : true,
     time_left:10,
     ticker:undefined,
-    pressedtime:0,
     buzz: (v)=>{
         if (!P8.VIBRATE) return;
         v = v? v : 100;
@@ -30,7 +45,7 @@ const P8 = {
     setLCDTimeout:(v)=>{P8.ON_TIME=v<5?5:v;},
     setLCDBrightness:(v)=>{P8.BRIGHT=v; brightness(v);},
     init:()=>{
-            var s = STOR.readJSON("settings.json",1)||{ontime:10, bright:3, timezone:1,faceup:true,vibrate:true};
+            var s = STOR.readJSON("settings.json",1)||{ontime:10, bright:3, timezone:1,faceup:false,vibrate:true};
             P8.ON_TIME=s.ontime;
             P8.time_left=s.ontime;
             P8.BRIGHT=s.bright;
@@ -43,7 +58,9 @@ const P8 = {
         brightness(0);
         TC.stop();
         P8.emit("sleep",true);
+        g.flip(); //make sure finished with SPI before stopping it.
         g.lcd_sleep();
+        setTimeout(anom89,100);
     },
     wake:()=> {
         P8.awake = true;
@@ -70,30 +87,28 @@ setWatch(()=>{
   },D19,{repeat:true,debounce:500});
   
 
-setWatch(() =>{P8.pressedtime = Date.now();},D17,{repeat:true,edge:"rising"});
-if (!D17.read()){
-    P8.init();
-    eval(STOR.read("lcd.js"));
-    var g = ST7789();
-    brightness(P8.BRIGHT);
-    eval(STOR.read("touch.js"));
-    TC.start();
-    TC.on('touch',(p)=>{P8.time_left=P8.ON_TIME;});
-    TC.on('swipe',(d)=>{P8.time_left=P8.ON_TIME;});
-    TC.on("longtouch", (p)=> {P8.time_left=P8.ON_TIME;if (D17.read()) reset(); else load("launch.js");});
-    if (P8.FACEUP && STOR.read("accel.js")){ 
-       eval(STOR.read("accel.js"));
-       ACCEL.init();
-       setInterval(ACCEL.check,200);
-       ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
-    }
-    P8.ticker = setInterval(P8.tick,1000);
-    setWatch(() =>{
-        if ((Date.now()-P8.pressedtime)>5000) E.reboot();
-        if (!P8.awake) P8.wake();
-    },D17,{repeat:true,edge:"falling"});
-} else {
-    setWatch(() =>{
-        if ((Date.now()-P8.pressedtime)>5000) E.reboot();
-    },D17,{repeat:true,edge:"falling"});
+setWatch(() =>{
+    if(P8.awake) 
+        load("launch.js");
+    else
+        P8.wake()
+  },D17,{repeat:true,edge:"rising"});
+
+
+P8.init();
+eval(STOR.read("lcd.js"));
+var g = ST7789();
+brightness(P8.BRIGHT);
+eval(STOR.read("touch.js"));
+TC.start();
+TC.on('touch',(p)=>{P8.time_left=P8.ON_TIME;});
+TC.on('swipe',(d)=>{P8.time_left=P8.ON_TIME;});
+TC.on("longtouch", (p)=> {P8.time_left=P8.ON_TIME;if (D17.read()) reset(); else load("launch.js");});
+if (P8.FACEUP && STOR.read("accel.js")){ 
+    eval(STOR.read("accel.js"));
+    ACCEL.init();
+    setInterval(ACCEL.check,200);
+    ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
 }
+P8.ticker = setInterval(P8.tick,1000);
+

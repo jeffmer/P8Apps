@@ -4,7 +4,7 @@
     "tags": "tool,system",
     "type":"bootloader",
     "icon": "bootloader.png",
-    "version":"0.02",
+    "version":"0.03",
     "description": "This loads the P8 App execution environment - boot, lcd, touch & accel",
     "storage": [
       {"name":".boot0","url":"boot0.js"},

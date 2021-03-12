@@ -1,44 +1,46 @@
-// its a SC7A20 
-
 var ACCEL = {
-    faceuptime:0,
-    faceup:false,
-    writeByte:(a,d) => { 
-        P8I2C.writeTo(0x18,a,d);
-    }, 
-    readBytes:(a,n) => {
-        P8I2C.writeTo(0x18, a);
-        return P8I2C.readFrom(0x18,n); 
-    },
-    init:() => {
-        var id = ACCEL.readBytes(0x0F,1)[0];
-        ACCEL.writeByte(0x20,0x67);
-        ACCEL.writeByte(0x23,0x88);
-        return id;
-    },
-    read:()=>{
-        var a = ACCEL.readBytes(0xA8,6);
-        return a;
-        //return {ax:a[0]<<8+a[1], ay:a[2]<<8+a[3], az:a[4]<<8+a[5]};
-    },
-    read2:()=> {
-        return ACCEL.readBytes(0x01,1)[0];
-    },
-    check:()=>{
-      if (ACCEL.read2()>192) {
-        if (ACCEL.faceup) {
-          if (Date.now()-ACCEL.faceuptime>1000) {
-             ACCEL.emit("faceup");
-             ACCEL.faceup=false;
-             return;
-          }
-        } else {
-          ACCEL.faceup =true;
-          ACCEL.faceuptime = Date.now();
-        }
-      } else ACCEL.faceup=false;
-    }
+  writeByte:(a,d) => { 
+      P8I2C.writeTo(0x18,a,d);
+  }, 
+  readBytes:(a,n) => {
+      P8I2C.writeTo(0x18, a);
+      return P8I2C.readFrom(0x18,n); 
+  },
+  init:() => {
+      var id = ACCEL.readBytes(0x0F,1)[0];
+      ACCEL.writeByte(0x20,0x47);
+      ACCEL.writeByte(0x21,0x00); //highpass filter disabled
+      ACCEL.writeByte(0x22,0x40); //interrupt to INT1
+      ACCEL.writeByte(0x23,0xC8); //BDU,MSB at low addr, HR
+      ACCEL.writeByte(0x24,0x00); //latched interrupt
+      ACCEL.writeByte(0x32,0x20); //threshold = 500mg
+      ACCEL.writeByte(0x33,0x20); //duration = 0
+      ACCEL.writeByte(0x30,0x02); //XH interrupt  
+      setWatch(()=>{
+         if (ACCEL.read0()>192) ACCEL.emit("faceup");
+      },D8,{repeat:true,edge:"rising"});
+      return id;
+  },
+  read0:()=>{
+      return ACCEL.readBytes(0x01,1)[0];
+  },
+  read:()=>{
+      function conv(hi,lo) { 
+        var i = (hi<<8)+lo;
+        return ((i & 0x7FFF) - (i & 0x8000))/16;
+      }
+      var a = ACCEL.readBytes(0xA8,6);
+      return {ax:conv(a[0],a[1]), ay:conv(a[2],a[3]), az:conv(a[4],a[5])};
+  },
 };
+
+
+
+
+
+
+
+
 
 
 

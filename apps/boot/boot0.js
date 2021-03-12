@@ -74,7 +74,6 @@ const P8 = {
     tick:()=>{
         P8.time_left--;
         if (P8.time_left<=0){
-           if (global.ACCEL && ACCEL.faceup) {P8.time_left = P8.ON_TIME; return;}
            if (P8.ticker) P8.ticker=clearInterval(P8.ticker);
            P8.emit("sleep",true);
            P8.sleep();
@@ -107,7 +106,6 @@ TC.on("longtouch", (p)=> {P8.time_left=P8.ON_TIME;if (D17.read()) reset(); else 
 if (P8.FACEUP && STOR.read("accel.js")){ 
     eval(STOR.read("accel.js"));
     ACCEL.init();
-    setInterval(ACCEL.check,200);
     ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
 }
 P8.ticker = setInterval(P8.tick,1000);

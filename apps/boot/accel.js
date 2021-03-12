@@ -12,9 +12,9 @@ var ACCEL = {
       ACCEL.writeByte(0x21,0x00); //highpass filter disabled
       ACCEL.writeByte(0x22,0x40); //interrupt to INT1
       ACCEL.writeByte(0x23,0xC8); //BDU,MSB at low addr, HR
-      ACCEL.writeByte(0x24,0x00); //latched interrupt
+      ACCEL.writeByte(0x24,0x00); //latched interrupt off
       ACCEL.writeByte(0x32,0x20); //threshold = 500mg
-      ACCEL.writeByte(0x33,0x20); //duration = 0
+      ACCEL.writeByte(0x33,0x20); //duration = 32 * 20ms
       ACCEL.writeByte(0x30,0x02); //XH interrupt  
       setWatch(()=>{
          if (ACCEL.read0()>192) ACCEL.emit("faceup");

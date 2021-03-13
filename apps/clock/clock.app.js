@@ -60,7 +60,7 @@ function setButtons(){
   });
 }
 
-TC.on('longtouch',()=>{
+E.on('kill',()=>{
     if (iface!=lastface.pinned){
       lastface.pinned=iface;
       STOR.write("clock.json",lastface);

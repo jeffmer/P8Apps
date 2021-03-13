@@ -36,10 +36,7 @@ const P8 = {
         }
     },
     batV: () => {
-        pinMode(D31,"analog",true);
-        var v = 7.1 * analogRead(D31);
-        pinMode(D31,"input",true); //power saving?
-        return v;
+        return 7.1 * analogRead(D31);
     },
     isPower:()=>{return D19.read();},
     setLCDTimeout:(v)=>{P8.ON_TIME=v<5?5:v;},

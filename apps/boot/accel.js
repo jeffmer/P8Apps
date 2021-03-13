@@ -11,7 +11,7 @@ var ACCEL = {
       ACCEL.writeByte(0x20,0x47);
       ACCEL.writeByte(0x21,0x00); //highpass filter disabled
       ACCEL.writeByte(0x22,0x40); //interrupt to INT1
-      ACCEL.writeByte(0x23,0xC8); //BDU,MSB at low addr, HR
+      ACCEL.writeByte(0x23,0x88); //BDU,MSB at high addr, HR
       ACCEL.writeByte(0x24,0x00); //latched interrupt
       ACCEL.writeByte(0x32,0x20); //threshold = 500mg
       ACCEL.writeByte(0x33,0x20); //duration = 0
@@ -25,7 +25,7 @@ var ACCEL = {
       return ACCEL.readBytes(0x01,1)[0];
   },
   read:()=>{
-      function conv(hi,lo) { 
+      function conv(lo,hi) { 
         var i = (hi<<8)+lo;
         return ((i & 0x7FFF) - (i & 0x8000))/16;
       }

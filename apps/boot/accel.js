@@ -14,11 +14,11 @@ var ACCEL = {
       ACCEL.writeByte(0x23,0x88); //BDU,MSB at high addr, HR
       ACCEL.writeByte(0x24,0x00); //latched interrupt off
       ACCEL.writeByte(0x32,0x20); //threshold = 500mg
-      ACCEL.writeByte(0x33,0x20); //duration = 0
-      ACCEL.writeByte(0x30,0x02); //XH interrupt  
+      ACCEL.writeByte(0x33,0x01); //duration = 1 * 20ms
+      ACCEL.writeByte(0x30,0x02); //XH interrupt 
       setWatch(()=>{
          if (ACCEL.read0()>192) ACCEL.emit("faceup");
-      },D8,{repeat:true,edge:"rising"});
+      },D8,{repeat:true,edge:"rising",debounce:50});
       return id;
   },
   read0:()=>{

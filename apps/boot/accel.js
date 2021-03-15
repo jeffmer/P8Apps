@@ -13,7 +13,7 @@ var ACCEL = {
       ACCEL.writeByte(0x22,0x40); //interrupt to INT1
       ACCEL.writeByte(0x23,0x88); //BDU,MSB at high addr, HR
       ACCEL.writeByte(0x24,0x00); //latched interrupt off
-      ACCEL.writeByte(0x32,0x20); //threshold = 500mg
+      ACCEL.writeByte(0x32,0x10); //threshold = 250 milli g's
       ACCEL.writeByte(0x33,0x01); //duration = 1 * 20ms
       ACCEL.writeByte(0x30,0x02); //XH interrupt 
       setWatch(()=>{

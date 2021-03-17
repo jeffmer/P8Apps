@@ -20,6 +20,7 @@ P8I2C.setup({scl:D7,sda:D6,bitrate:200000});
 const P8 = {
     ON_TIME: 10,
     BRIGHT : 3,
+    NIGHT : false,
     FACEUP:true,
     VIBRATE:true,
     awake : true,
@@ -65,7 +66,7 @@ const P8 = {
         TC.start();
         g.lcd_wake();
         P8.emit("sleep",false);
-        brightness(P8.BRIGHT);
+        if(P.NIGHT) brightness(1); else brightness(P8.BRIGHT);
         P8.ticker = setInterval(P8.tick,1000);
     },
     tick:()=>{
@@ -99,7 +100,11 @@ eval(STOR.read("touch.js"));
 TC.start();
 TC.on('touch',(p)=>{P8.time_left=P8.ON_TIME;});
 TC.on('swipe',(d)=>{P8.time_left=P8.ON_TIME;});
-TC.on("longtouch", (p)=> {P8.time_left=P8.ON_TIME;if (D17.read()) reset(); else load("launch.js");});
+TC.on("longtouch", (p)=> {
+    P8.time_left=P8.ON_TIME;
+    P8.NIGHT=!P8.NIGHT; 
+    if(P.NIGHT) brightness(1); else brightness(P8.BRIGHT);
+}); 
 if (P8.FACEUP && STOR.read("accel.js")){ 
     eval(STOR.read("accel.js"));
     ACCEL.init();

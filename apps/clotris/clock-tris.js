@@ -295,9 +295,12 @@ bindButton(BTN_DOWN, 0, 1, 0);
 seWatch(togglePause, BTN_PAUSE, { repeat: true });
 */
 var selbut = -1;
-var butdefs = [{x1:10,y1:200,x2:59,y2:239,poly:[20,220,50,204,50,235]},
-                {x1:95,y1:200,x2:144,y2:239,poly:[105,204,135,204,120,235]},
-                {x1:180,y1:200,x2:229,y2:239,poly:[190,204,220,220,190,235]}];
+var butdefs = [{x1:0,y1:200,x2:49,y2:239,poly:[10,220,40,204,40,235]},
+               {x1:60,y1:200,x2:109,y2:239,poly:[70,210,100,210,100,229,70,229]},
+               {x1:125,y1:200,x2:174,y2:239,poly:[135,204,165,204,150,235]},
+              {x1:190,y1:200,x2:239,y2:239,poly:[200,204,229,220,200,235]}
+
+              ];
 var drawButton = function(d,sel){
       (sel?g.setColor(0.8,0.8,1.0):g.setColor(0.5,0.5,1.0)).fillRect(d.x1,d.y1,d.x2,d.y2);
       g.setColor(-1).fillPoly(d.poly);
@@ -312,16 +315,18 @@ var isPressed = function(p,n) {
 
 buttons = function(p){
   if (isPressed(p,0)) checkMove(-1,0,0);
-  else if (isPressed(p,1)) while (checkMove(0,1,0));  
-  else if (isPressed(p,2)) checkMove(1,0,0);
+  else if (isPressed(p,1)) checkMove(0,0,1);
+  else if (isPressed(p,2)) while (checkMove(0,1,0));  
+  else if (isPressed(p,3)) checkMove(1,0,0);
+
   else selbut=-1;
 };
-setWatch(() =>{checkMove(0,0,1);},D17,{repeat:true,edge:"rising"});
+
 TC.on("touch",buttons);
 P8.on("sleep",(b)=>{pause(b)});
 
 setTimeout(()=>{
-  for(var i=0;i<3;i++)drawButton(butdefs[i],false);
+  for(var i=0;i<4;i++)drawButton(butdefs[i],false);
   startGame();
   drawLoop();
 },500);

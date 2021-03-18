@@ -20,23 +20,7 @@ function startdraw() {
   P8.drawWidgets();
 }
 
-var SCREENACCESS = {
-  withApp:true,
-  alertTO:undefined,
-  request:function(){
-    this.withApp=false;
-    stopdraw();
-    this.alertTO = setTimeout(()=>{load("launch.js");},600000);
-  },
-  release:function(){
-    this.withApp=true;
-    if (this.alertTO) {clearTimeout(this.alertTO); this.alertTO=undefined;}
-    startdraw(); 
-  }
-}; 
-
 P8.on('sleep',function(b) {
-  if (!SCREENACCESS.withApp) return;
   if (!b) {
       startdraw();
   } else {
@@ -67,11 +51,12 @@ E.on('kill',()=>{
     }
 });
 
-TC.on("longtouch", (p)=>{load("nclock.app.js");}); 
+TC.on("longtouch", (p)=>{load("clock.app.js");}); 
 
 P8.loadWidgets();
 
 setTimeout(()=>{
+  P8.setLCDBrightness(1);
   g.clear();
   startdraw();
   setButtons();

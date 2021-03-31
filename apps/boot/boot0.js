@@ -8,7 +8,7 @@ E.kickWatchdog();
 
 const STOR = require("Storage");
 
-function anom89(){
+function anom89(){ // not need for latest Espruino build
     poke8(0x40003FFC,0);
     poke8(0x40003FFC,1);
     SPI1.setup({sck:D2, mosi:D3, baud: 8000000});
@@ -57,7 +57,7 @@ const P8 = {
         P8.emit("sleep",true);
         g.flip(); //make sure finished with SPI before stopping it.
         g.lcd_sleep();
-        setTimeout(anom89,100);
+       // setTimeout(anom89,100);
     },
     wake:()=> {
         P8.awake = true;

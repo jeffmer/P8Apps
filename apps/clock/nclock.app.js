@@ -38,7 +38,6 @@ function setButtons(){
     startdraw();
   }
   TC.on('swipe',(dir)=>{
-    if (!SCREENACCESS.withApp) return;
     if (dir ==TC.RIGHT) newFace(1);
     else if (dir == TC.LEFT) newFace(-1);
   });

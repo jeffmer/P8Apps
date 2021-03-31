@@ -209,7 +209,7 @@
   { "id": "clotris",
     "name": "Tetris",
     "icon": "clock-tris.png",
-    "version":"0.03",
+    "version":"0.04",
     "description": "A fully functional clone of a classic game of falling blocks",
     "tags": "game",
     "allow_emulator":true,

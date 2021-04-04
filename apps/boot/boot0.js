@@ -22,6 +22,7 @@ const P8 = {
     BRIGHT : 3,
     FACEUP:true,
     VIBRATE:true,
+    POWER:false,
     awake : true,
     time_left:10,
     ticker:undefined,
@@ -38,7 +39,7 @@ const P8 = {
     batV: () => {
         return 7.1 * analogRead(D31);
     },
-    isPower:()=>{return D19.read();},
+    isPower:()=>{return P8.POWER;},
     setLCDTimeout:(v)=>{P8.ON_TIME=v<5?5:v;},
     setLCDBrightness:(v)=>{P8.BRIGHT=v; brightness(v);},
     init:()=>{
@@ -78,10 +79,16 @@ const P8 = {
     }
 };
 
-setWatch(()=>{
-    P8.emit("power",D19.read());
-  },D19,{repeat:true,debounce:500});
-  
+function watchBat(){
+    var tc = setWatch(()=>{
+    P8.POWER = D19.read();
+    if(!P8.awake) P8.wake();
+    P8.emit("power",P8.POWER);
+    clearWatch(tc);
+    setTimeout(watchBat,100);
+  },D19,{edge:"both",repeat:true,debounce:0});
+}
+
 
 setWatch(() =>{
     if(P8.awake) 
@@ -89,7 +96,6 @@ setWatch(() =>{
     else
         P8.wake()
   },D17,{repeat:true,edge:"rising"});
-
 
 P8.init();
 eval(STOR.read("lcd.js"));
@@ -107,4 +113,6 @@ if (P8.FACEUP && STOR.read("accel.js")){
     ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
 }
 P8.ticker = setInterval(P8.tick,1000);
+P8.POWER=D19.read();
+watchBat();
 

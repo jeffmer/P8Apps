@@ -1,4 +1,5 @@
 
+pinMode(D17,"input",false);
 function KickWd(){
     if(!D17.read())E.kickWatchdog();
 }
@@ -22,7 +23,6 @@ const P8 = {
     BRIGHT : 3,
     FACEUP:true,
     VIBRATE:true,
-    POWER:false,
     awake : true,
     time_left:10,
     ticker:undefined,
@@ -39,7 +39,7 @@ const P8 = {
     batV: () => {
         return 7.1 * analogRead(D31);
     },
-    isPower:()=>{return P8.POWER;},
+    isPower:()=>{return D19.read();},
     setLCDTimeout:(v)=>{P8.ON_TIME=v<5?5:v;},
     setLCDBrightness:(v)=>{P8.BRIGHT=v; brightness(v);},
     init:()=>{
@@ -80,15 +80,12 @@ const P8 = {
 };
 
 function watchBat(){
-    var tc = setWatch(()=>{
-    P8.POWER = D19.read();
-    if(!P8.awake) P8.wake();
-    P8.emit("power",P8.POWER);
-    clearWatch(tc);
-    setTimeout(watchBat,100);
+    pinMode(D19,"input",false);
+    setWatch(()=>{
+      if(!P8.awake) P8.wake();
+      P8.emit("power",D19.read());
   },D19,{edge:"both",repeat:true,debounce:0});
 }
-
 
 setWatch(() =>{
     if(P8.awake) 

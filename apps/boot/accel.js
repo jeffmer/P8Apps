@@ -16,6 +16,7 @@ var ACCEL = {
       ACCEL.writeByte(0x32,0x10); //threshold = 250 milli g's
       ACCEL.writeByte(0x33,0x01); //duration = 1 * 20ms
       ACCEL.writeByte(0x30,0x02); //XH interrupt 
+      pinMode(D8,"input",false);
       setWatch(()=>{
          if (ACCEL.read0()>192) ACCEL.emit("faceup");
       },D8,{repeat:true,edge:"rising",debounce:50});

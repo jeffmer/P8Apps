@@ -75,7 +75,7 @@ function ST7789() {
         });
         g.lcd_sleep = function(){cmd(0x10);cmd(0x28);};
         g.lcd_wake = function(){cmd(0x29);cmd(0x11);};
-        dispinit(rst, ()=>{g.clear().setFont("Vector",24).drawString("P8 Expruino",40,100);});
+        dispinit(rst, ()=>{print("If you stuck in black screen please press button."); g.clear();});
         return g;
     }
 
@@ -107,4 +107,3 @@ E.showMessage = function(msg,title) {
     lines.forEach((line,y)=>g.drawString(line,W/2,offset + y*24));
     g.flip();
   };
-  

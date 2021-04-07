@@ -11,11 +11,11 @@ This is very much based on the excellent Bangle.js and some Bangle apps and widg
 
 For a brand-new P8, you need to follow the instructions [here](https://github.com/fanoush/ds-d6/tree/master/espruino/DFU/P8) produced by @fanoush to get the right bootloader required by Espruino - SDK12 with Softdevice S132 3.0. After that you can flash this firmware:
 
-[espruino_2v08.63_p8_DBUF_FIX2.zip](https://github.com/jeffmer/P8Apps/blob/main/firmware/espruino_2v08.63_p8_DBUF_FIX2.zip)
+[espruino_2v08.316_p8_SDK12_SD30_SPIFLASH.zip](https://github.com/ysfsvm/P8Apps/blob/main/firmware/espruino_2v08.316_p8_SDK12_SD30_SPIFLASH.zip)
 
 This build has a modified `lcd_spi_unbuf` module that works with SPI FLASH. The build makes the full 4 megabytes available to Espruino applications. In addition, there is a small hack to bluetooth to support the ANCS widget that connects to an iPhone.
 
-Once Espruino is involved use the [P8 App Loader](https://jeffmer.github.io/P8Apps/) to load `Bootloader`, `Launcher` and `Settings` followed by the apps and widgets you want.
+Once Espruino is involved use the [P8 App Loader](https://ysfsvm.github.io/P8Apps/) to load `Bootloader`, `Launcher` and `Settings` followed by the apps and widgets you want.
 
 To change Apps, a long touch on the touch screen will start the `launch` app. In addition, the P8 will display `P8 Espruino` when first booted and a long touch is required to start `launch`.
 

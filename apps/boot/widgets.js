@@ -1,8 +1,8 @@
 P8.drawWidgets = function() {
     var w=g.getWidth(), h=g.getHeight();
     var pos = {
-        tl:{x:28, y:0, r:0, c:0}, // if r==1, we're right->left
-        tr:{x:w-28, y:0, r:1, c:0},
+        tl:{x:3, y:0, r:0, c:0}, // if r==1, we're right->left
+        tr:{x:w-6, y:0, r:1, c:0},
         bl:{x:24, y:h-24, r:0, c:0},
         br:{x:w-24, y:h-24, r:1, c:0}
     };

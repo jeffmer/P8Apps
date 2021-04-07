@@ -5,10 +5,15 @@ eval(storage.read("prompt.js"));
 var s = storage.readJSON("settings.json",1)||{ontime:5, bright:3, timezone:1, faceup:true};
 
 if (storage.read("bletime.js")) eval(storage.read("bletime.js"));
-
 function doreboot(){
   E.showPrompt("Rebooting will\nreset time.\nReboot?").then((b)=>{
       if (b) E.reboot(); else { E.showMenu(mainmenu);}
+  });
+}
+
+function dodfureboot(){
+  E.showPrompt("Watch will reboot\nto dfu mode.\nReboot?").then((b)=>{
+      if (b) poke32(0x4000051c,1); else { E.showMenu(mainmenu);}
   });
 }
 
@@ -44,6 +49,7 @@ var mainmenu = {
                     setTimefromPhone(mainmenu);
                   },300);
                 },
+    'Reboot to Dfu Mode': ()=>{E.showMenu(); setTimeout(dodfureboot,300)},
     'Reboot': ()=>{E.showMenu(); setTimeout(doreboot,300)},
     "Exit" : function() { storage.writeJSON("settings.json",s); load("launch.js");}
 };

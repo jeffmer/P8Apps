@@ -4,7 +4,7 @@
     "tags": "tool,system",
     "type":"bootloader",
     "icon": "bootloader.png",
-    "version":"0.04",
+    "version":"0.05",
     "description": "This loads the P8 App execution environment - boot, lcd, touch & accel",
     "storage": [
       {"name":".boot0","url":"boot0.js"},
@@ -61,6 +61,47 @@
       {"name":"dk.face.js","url":"dk.face.js"},
       {"name":"clock.img","url":"clock-icon.js","evaluate":true }
     ]
+  },
+  { "id": "cliock",
+    "name": "Commandline-Clock",
+    "shortName":"CLI-Clock",
+    "icon": "app.png",
+    "version":"0.11",
+    "description": "Simple CLI-Styled Clock",
+    "tags": "clock,cli,command,bash,shell",
+    "type":"clock",
+    "allow_emulator":true,
+    "storage": [
+      {"name":"cliock.app.js","url":"app.js"},
+      {"name":"cliock.img","url":"app-icon.js","evaluate":true}
+    ]
+  },
+  { "id": "notify",
+    "name": "Notifications (default)",
+    "shortName":"Notifications",
+    "icon": "notify.png",
+    "version":"0.07",
+    "description": "A handler for displaying notifications that displays them in a bar at the top of the screen",
+    "tags": "widget",
+    "type": "notify",
+    "readme": "README.md",
+    "storage": [
+      {"name":"notify","url":"notify.js"}
+    ]
+  },
+  { "id": "locale",
+    "name": "Languages",
+    "icon": "locale.png",
+    "version":"0.09",
+    "description": "Translations for different countries",
+    "tags": "tool,system,locale,translate",
+    "type": "locale",
+    "custom":"locale.html",
+    "readme": "README.md",
+    "storage": [
+      {"name":"locale"}
+    ],
+    "sortorder" : -10
   },
   { "id": "life",
     "name": "Life",
@@ -119,6 +160,40 @@
     "type":"widget",
     "storage": [
       {"name":"widbat.wid.js","url":"widget.js"}
+    ]
+  },
+  { "id": "widbatpc",
+    "name": "Battery Level Widget (with percentage)",
+    "shortName": "Battery Widget",
+    "icon": "widget.png",
+    "version":"0.11",
+    "description": "Show the current battery level and charging status in the top right of the clock, with charge percentage",
+    "tags": "widget,battery",
+    "type":"widget",
+    "storage": [
+      {"name":"widbatpc.wid.js","url":"widget.js"},
+      {"name":"widbatpc.settings.js","url":"settings.js"}
+    ],
+    "data": [
+      {"name":"widbatpc.json"}
+    ]
+  },
+  { "id": "gbridge",
+    "name": "Gadgetbridge",
+    "icon": "app.png",
+    "version":"0.21",
+    "description": "The default notification handler for Gadgetbridge notifications from Android",
+    "tags": "tool,system,android,widget",
+    "readme": "README.md",
+    "type":"widget",
+    "dependencies": { "notify":"type" },
+    "storage": [
+      {"name":"gbridge.settings.js","url":"settings.js"},
+      {"name":"gbridge.img","url":"app-icon.js","evaluate":true},
+      {"name":"gbridge.wid.js","url":"widget.js"}
+    ],
+    "data": [
+      {"name":"gbridge.json"}
     ]
   },
   { "id": "widram",
@@ -205,6 +280,31 @@
       {"name":"pairs.img","url":"pairs_icon.js","evaluate":true}
     ],
     "sortorder" : 10
+  },
+  {
+    "id": "blescan",
+    "name": "BLE Scanner",
+    "icon": "blescan.png",
+    "version":"0.01",
+    "description": "Scan for advertising BLE devices",
+    "tags" : "bluetooth",
+    "storage" : [
+      {"name":"blescan.app.js","url":"blescan.js"},
+      {"name":"blescan.img","url":"blescan-icon.js", "evaluate":true}
+    ]
+  },
+  { "id": "bledetect",
+    "name": "BLE Detector",
+    "shortName":"BLE Detector",
+    "icon": "bledetect.png",
+    "version":"0.03",
+    "description": "Detect BLE devices and show some informations.",
+    "tags": "app,bluetooth,tool",
+    "readme": "README.md",
+    "storage": [
+      {"name":"bledetect.app.js","url":"bledetect.js"},
+      {"name":"bledetect.img","url":"bledetect-icon.js","evaluate":true}
+    ]
   },
   { "id": "clotris",
     "name": "Tetris",

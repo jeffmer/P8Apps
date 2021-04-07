@@ -89,7 +89,7 @@ function watchBat(){
 
 setWatch(() =>{
     if(P8.awake) 
-        load("launch.js");
+        load("cliock.app.js");
     else
         P8.wake()
   },D17,{repeat:true,edge:"rising"});

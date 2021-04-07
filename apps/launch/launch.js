@@ -37,6 +37,7 @@ function drawPage(p){
 
 TC.on("swipe",(dir)=>{
     selected = -1;
+  
     if (dir==TC.LEFT){
         ++page; if (page>maxPage) page=maxPage;
         drawPage(page);
@@ -44,6 +45,7 @@ TC.on("swipe",(dir)=>{
         --page; if (page<0) page=0;
         drawPage(page);
     }  
+    else if (dir == TC.DOWN) load("cliock.app.js");
 });
 
 function isTouched(p,n){

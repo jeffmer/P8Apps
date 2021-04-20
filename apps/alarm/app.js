@@ -35,7 +35,7 @@ function showMainMenu() {
       editAlarm(idx);
     };
   });
-  menu['< Back'] =  ()=>{load();};
+  menu['< Back'] =  ()=>{load("clock.app.js");};
   return E.showMenu(menu);
 }
 
@@ -106,7 +106,6 @@ function editAlarm(alarmIndex) {
     };
   }
   menu['< Back'] = showMainMenu;
-  menu['Exit']  = function() {load("clock.app.js");}
   return E.showMenu(menu);
 }
 

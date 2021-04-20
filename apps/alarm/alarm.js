@@ -40,18 +40,16 @@ function showAlarm(alarm) {
     load("clock.app.js");
   });
   function buzz() {
-    P8.buzz(100).then(()=>{
+    P8.buzz(100);
       setTimeout(()=>{
-        P8.buzz(100).then(function() {
-          if (buzzCount--)
-            setTimeout(buzz, 3000);
-          else if(alarm.as) { // auto-snooze
+        P8.buzz(100);
+        if (buzzCount--)
+            setTimeout(buzz, 2000);
+        else if(alarm.as) { // auto-snooze
             buzzCount = 10;
             setTimeout(buzz, 600000);
-          }
-        });
+        }
       },100);
-    });
   }
   buzz();
 }
@@ -64,8 +62,8 @@ var active = alarms.filter(a=>a.on&&(a.hr<hr)&&(a.last!=day));
 if (active.length) {
   // if there's an alarm, show it
   active = active.sort((a,b)=>a.hr-b.hr);
-  showAlarm(active[0]);
+  setTimeout(()=>{showAlarm(active[0]);},500);
 } else {
   // otherwise just go back to default app
-  setTimeout(load, 100);
+  setTimeout(()=>{load("clocl.app.js");}, 100);
 }

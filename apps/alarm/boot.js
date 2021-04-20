@@ -17,7 +17,7 @@
       since this code will get called AGAIN when alarm.js is loaded. alarm.js
       will then clearInterval() to get rid of this call so it can proceed
       normally. */
-      setTimeout(function() {
+      P8.alarm = setTimeout(function() {
         load("alarm.js");
       },t);
     }

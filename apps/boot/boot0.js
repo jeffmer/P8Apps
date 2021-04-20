@@ -111,5 +111,7 @@ if (P8.FACEUP && STOR.read("accel.js")){
 }
 P8.ticker = setInterval(P8.tick,1000);
 P8.POWER=D19.read();
-watchBat();
+watchBat()
+if (STOR.read("alarm.boot.js")) eval(STOR.read("alarm.boot.js"));
+
 

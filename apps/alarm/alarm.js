@@ -1,6 +1,8 @@
 // Chances are boot0.js got run already and scheduled *another*
 // 'load(alarm.js)' - so let's remove it first!
-clearInterval();
+if (P8.alarm) P8.alarm = clearTimeout(P8.alarm);
+const storage = require("Storage");
+eval(storage.read("prompt.js"));
 
 function formatTime(t) {
   var hrs = 0|t;
@@ -35,12 +37,12 @@ function showAlarm(alarm) {
       if (!alarm.rp) alarm.on = false;
     }
     require("Storage").write("alarm.json",JSON.stringify(alarms));
-    load();
+    load("clock.app.js");
   });
   function buzz() {
-    Bangle.buzz(100).then(()=>{
+    P8.buzz(100).then(()=>{
       setTimeout(()=>{
-        Bangle.buzz(100).then(function() {
+        P8.buzz(100).then(function() {
           if (buzzCount--)
             setTimeout(buzz, 3000);
           else if(alarm.as) { // auto-snooze

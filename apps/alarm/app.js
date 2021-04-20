@@ -1,5 +1,5 @@
-Bangle.loadWidgets();
-Bangle.drawWidgets();
+const storage = require("Storage");
+eval(storage.read("menu.js"));
 
 var alarms = require("Storage").readJSON("alarm.json",1)||[];
 /*alarms = [
@@ -106,7 +106,8 @@ function editAlarm(alarmIndex) {
     };
   }
   menu['< Back'] = showMainMenu;
+  menu['Exit']  = function() {load("clock.app.js");}
   return E.showMenu(menu);
 }
 
-showMainMenu();
+setTimeout(showMainMenu,500);

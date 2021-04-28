@@ -243,7 +243,7 @@
     var colors = new Uint16Array([0xc618,0xf818,0x3ff,0xffe0,0x07e0,0x0000]);
     var img = E.toArrayBuffer(atob("GBgBAAAABAAADgAAHwAAPwAAf4AAP4AAP4AAP4AAHwAAH4AAD8AAB+AAA/AAAfgAAf3gAH/4AD/8AB/+AA/8AAf4AAHwAAAgAAAA"));
     g.setColor(colors[stage]);
-    g.drawImage(img,10,0);
+    g.drawImage(img,this.x,this.y);
   }
     
   WIDGETS["ancs"] ={area:"tl", width:24,draw:draw};

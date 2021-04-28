@@ -4,7 +4,7 @@
   var hidewid = false;
   
   function hide(){
-    if (!Bangle.isLCDOn() || saved) return;
+    if (!P8.awake || saved) return;
     saved = [];
     for (var wd of WIDGETS) {
       saved.push(wd.draw); 
@@ -15,9 +15,9 @@
   }
   
   function reveal(){
-    if (!Bangle.isLCDOn() || !saved) return;
+    if (!P8.awake || !saved) return;
     for (var wd of WIDGETS) wd.draw = saved.shift();
-    Bangle.drawWidgets(); 
+    P8.drawWidgets(); 
     saved=null;
   }
   

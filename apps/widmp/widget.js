@@ -28,7 +28,7 @@
   }
 
   function draw() {
-    mx = this.x; my = this.y + 12;
+    mx = this.x+11; my = this.y + 11;
     moon[moonPhase()]();
   }
 

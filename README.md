@@ -9,7 +9,7 @@ This is very much based on the excellent Bangle.js and some Bangle apps and widg
 
 ## Installation
 
-For a brand-new P8, you need to follow the instructions [here](https://github.com/fanoush/ds-d6/tree/master/espruino/DFU/P8) produced by @fanoush to get the right bootloader required by Espruino - SDK12 with Softdevice S132 3.0. After that you can flash the zip file from the firmware [directory](https://github.com/jeffmer/P8Apps/firmware).
+For a brand-new P8, you need to follow the instructions [here](https://github.com/fanoush/ds-d6/tree/master/espruino/DFU/P8) produced by @fanoush to get the right bootloader required by Espruino - SDK12 with Softdevice S132 3.0. After that you can flash the zip file from the firmware [directory](https://github.com/jeffmer/P8Apps/tree/main/firmware).
 
 This build has a modified `lcd_spi_unbuf` module that works with SPI FLASH. The build makes the full 4 megabytes available to Espruino applications. In addition, there is a small hack to bluetooth to support the ANCS widget that connects to an iPhone.
 

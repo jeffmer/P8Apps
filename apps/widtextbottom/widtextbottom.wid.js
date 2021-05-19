@@ -2,6 +2,12 @@
 run widgets in their own function scope so they don't interfere with
 currently-running apps */
 (() => {
+  const filename = 'widtextbottom.json';
+  let settings = Storage.readJSON(filename,1) || {
+  predtext: true,
+  colors : true,
+  fontsize : 13
+};	
     
   var text_color=0x7BE0;//Olive //0xFD20; //hex wo quotes
   var font_size='14';//ok2

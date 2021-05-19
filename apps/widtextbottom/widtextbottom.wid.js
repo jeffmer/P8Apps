@@ -4,9 +4,9 @@ currently-running apps */
 (() => {
     
   var text_color=0x7BE0;//Olive //0xFD20; //hex wo quotes
-  var font_size='12';//ok2
+  var font_size='14';//ok2
   g.setFontVector(font_size);  
-  var my_string="#espruino #MPLv2";   //"Bottom WGs area";  
+  var my_string="#espruino #MPL";   //"Bottom WGs area";  
   //calc width out of the function
   var text_width = g.stringWidth(my_string); // width of the widget after set font
   

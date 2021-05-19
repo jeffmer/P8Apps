@@ -5,9 +5,9 @@ currently-running apps */
   
   //var text_color='#e56e06';//ok
  var text_color=0x7BE0; //olive //0x07FF;//cyan 
-  var font_size='12';//ok2
+  var font_size='13';//ok2
   g.setFontVector(font_size);  
-  var my_string="#P8 top WGs";  
+  var my_string="#P8 #topWidgets";  
   //calc width out of the function
   var text_width = g.stringWidth(my_string); // width of the widget after set font
   

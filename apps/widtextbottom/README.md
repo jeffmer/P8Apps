@@ -1,5 +1,5 @@
-# Text in the bottom widget area
-This very basic widget allow to test using widget areas.
+# Text at the bottom widget area
+This very basic widget allows to print a text in the widget areas.
 Compatible with Bangle.js and P8+P8 expruino
 
 

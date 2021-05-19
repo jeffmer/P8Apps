@@ -281,5 +281,27 @@
     "storage": [
       {"name":"widviz.wid.js","url":"widget.js"}
     ]
+  },
+  { "id": "widclkbttm",
+    "name": "Digital clock p8 widget",
+    "shortName":"Digital clock Widget",    
+    "version":"0.02",
+    "description": "Displays time in the bottom area.",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widclkbttm.wid.js","url":"widclkbttm.wid.js"}
+    ]
+  }  ,
+  { "id": "widtextbottom",
+    "name": "Text at Bottom Widget area",
+    "shortName":"Text at Bottom Widget",    
+    "version":"0.02",
+    "description": "Prints a text in the widget areas.",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widtextbottom.wid.js","url":"widtextbottom.wid.js"}
+    ]
   }
 ]

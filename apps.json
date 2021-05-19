@@ -306,4 +306,17 @@
       {"name":"widtextbottom.wid.js","url":"widtextbottom.wid.js"}
     ]
   }
+  ,
+  { "id": "widtexttop",
+    "name": "Text at Top Widget area",
+    "shortName":"Text at Top Widget", 
+    "icon": "widtexttop.png",	
+    "version":"0.01",
+    "description": "Prints a text in the widget areas.",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widtexttop.wid.js","url":"widtexttop.wid.js"}
+    ]
+  }
 ]

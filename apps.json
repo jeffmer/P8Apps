@@ -288,31 +288,33 @@
     "icon": "widclkbttm.png",	
     "version":"0.02",
     "description": "Displays time in the bottom area.",
+	"readme": "README.md",
     "tags": "widget",
     "type": "widget",
     "storage": [
       {"name":"widclkbttm.wid.js","url":"widclkbttm.wid.js"}
     ]
-  }  ,
+  },
   { "id": "widtextbottom",
     "name": "Text at Bottom Widget area",
     "shortName":"Text at Bottom Widget", 
     "icon": "widtextbottom.png",	
     "version":"0.02",
     "description": "Prints a text in the widget areas.",
+	"readme": "README.md",
     "tags": "widget",
     "type": "widget",
     "storage": [
       {"name":"widtextbottom.wid.js","url":"widtextbottom.wid.js"}
     ]
-  }
-  ,
+  },
   { "id": "widtexttop",
     "name": "Text at Top Widget area",
     "shortName":"Text at Top Widget", 
     "icon": "widtexttop.png",	
     "version":"0.01",
     "description": "Prints a text in the widget areas.",
+	"readme": "README.md",
     "tags": "widget",
     "type": "widget",
     "storage": [

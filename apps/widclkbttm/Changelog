@@ -1,3 +1,4 @@
-0.01: Fork of widclk v0.04 github.com/espruino/BangleApps/tree/master/apps/widclk
-0.02: Modification and simplification to use in a P8 with jeffmer P8expruino, display at bottom WG area
+0.01: Fork of widclk v0.04 for P8. forked from  github.com/espruino/BangleApps/tree/master/apps/widclk
+0.02: Modification and simplification to use in a P8 with jeffmer P8expruino, display at bottom WG area (bug clear previous time)
+0.03: bug fixed, clear previous time before draw.
 

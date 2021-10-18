@@ -21,8 +21,8 @@
     "name": "Launcher (Default)",
     "shortName":"Launcher",
     "icon": "launch.png",
-    "version":"0.02",
-    "description": "Now supports multiple pages.",
+    "version":"0.03",
+    "description": "Added display of widgets.",
     "tags": "tool,system,launcher",
     "type":"launch",
     "storage": [
@@ -280,6 +280,45 @@
     "type": "widget",
     "storage": [
       {"name":"widviz.wid.js","url":"widget.js"}
+    ]
+  },
+  { "id": "widclkbttm",
+    "name": "Digital clock p8 widget",
+    "shortName":"Digital clock Widget",  
+    "icon": "widclkbttm.png",	
+    "version":"0.02",
+    "description": "Displays time in the bottom area.",
+	"readme": "README.md",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widclkbttm.wid.js","url":"widclkbttm.wid.js"}
+    ]
+  },
+  { "id": "widtextbottom",
+    "name": "Text at Bottom Widget area",
+    "shortName":"Text at Bottom Widget", 
+    "icon": "widtextbottom.png",	
+    "version":"0.02",
+    "description": "Prints a text in the widget areas.",
+	"readme": "README.md",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widtextbottom.wid.js","url":"widtextbottom.wid.js"}
+    ]
+  },
+  { "id": "widtexttop",
+    "name": "Text at Top Widget area",
+    "shortName":"Text at Top Widget", 
+    "icon": "widtexttop.png",	
+    "version":"0.01",
+    "description": "Prints a text in the widget areas.",
+	"readme": "README.md",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widtexttop.wid.js","url":"widtexttop.wid.js"}
     ]
   }
 ]

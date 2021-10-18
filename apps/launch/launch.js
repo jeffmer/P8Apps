@@ -1,8 +1,13 @@
 /* T-watch Desktop launcher
-*
+support widgets
 */
 
 var s = require("Storage");
+eval(s.read("widgets.js"));
+var y_wg_bottom=g.getHeight()-25; 
+var y_wg_top=24;     
+
+
 var apps = s.list(/\.info$/).map(app=>{var a=s.readJSON(app,1);return a&&{name:a.name,type:a.type,icon:a.icon,sortorder:a.sortorder,src:a.src};}).filter(app=>app && (app.type=="app" || app.type=="clock" || !app.type));
 apps.sort((a,b)=>{
   var n=(0|a.sortorder)-(0|b.sortorder);
@@ -27,8 +32,12 @@ function draw_icon(p,n,selected) {
 }
 
 function drawPage(p){
-    g.setColor(0,0,0).fillRect(0,0,239,239);
-    g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Apps ("+(p+1)+"/"+Npages+")",120,12);
+    //g.setColor(0,0,0).fillRect(0,0,239,239);
+	g.setColor(0,0,0).fillRect(0,y_wg_top,239,y_wg_bottom);
+	//is necesary??
+	P8.drawWidgets();
+    //g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Apps ("+(p+1)+"/"+Npages+")",120,12);
+	g.setFont("6x8",2).setFontAlign(0,-1,0).setColor(1,1,1).drawString("P8-Apps ("+(p+1)+"/"+Npages+")",120,y_wg_top+2);
     for (var i=0;i<6;i++) {
         if (!apps[p*6+i]) return i;
         draw_icon(p,i,false);
@@ -76,5 +85,6 @@ TC.on("touch",(p)=>{
         selected=-1;
     }
 });
+ P8.loadWidgets();    
 
 setTimeout(()=>{drawPage(0)},1000);

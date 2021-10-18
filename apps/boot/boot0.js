@@ -1,7 +1,9 @@
 
-pinMode(D17,"input",false);
+//lastest firmware seems to invert buttons
+
+pinMode(D17,"input");
 function KickWd(){
-    if(!D17.read())E.kickWatchdog();
+    if(D17.read())E.kickWatchdog();
 }
 var wdint=setInterval(KickWd,5000); // 5 secs
 E.enableWatchdog(20, false); // 20 secs
@@ -30,16 +32,16 @@ const P8 = {
         if (!P8.VIBRATE) return;
         v = v? v : 100;
         if (v<=50){
-            digitalPulse(D16,true,v);
+            digitalPulse(D16,false,v);
         } else {
-            D16.set();
-            setTimeout(()=>{D16.reset();},v);
+            D16.reset();
+            setTimeout(()=>{D16.set();},v);
         }
     },
     batV: () => {
         return 7.1 * analogRead(D31);
     },
-    isPower:()=>{return D19.read();},
+    isPower:()=>{return !D19.read();},
     setLCDTimeout:(v)=>{P8.ON_TIME=v<5?5:v;},
     setLCDBrightness:(v)=>{P8.BRIGHT=v; brightness(v);},
     init:()=>{
@@ -83,7 +85,7 @@ function watchBat(){
     pinMode(D19,"input",false);
     setWatch(()=>{
       if(!P8.awake) P8.wake();
-      P8.emit("power",D19.read());
+      P8.emit("power",!D19.read());
   },D19,{edge:"both",repeat:true,debounce:0});
 }
 
@@ -92,7 +94,7 @@ setWatch(() =>{
         load("launch.js");
     else
         P8.wake()
-  },D17,{repeat:true,edge:"rising"});
+  },D17,{repeat:true,edge:"falling"});
 
 P8.init();
 eval(STOR.read("lcd.js"));
@@ -110,7 +112,7 @@ if (P8.FACEUP && STOR.read("accel.js")){
     ACCEL.on("faceup",()=>{if (!P8.awake) P8.wake();});
 }
 P8.ticker = setInterval(P8.tick,1000);
-P8.POWER=D19.read();
+P8.POWER=!D19.read();
 watchBat()
 if (STOR.read("alarm.boot.js")) eval(STOR.read("alarm.boot.js"));
 

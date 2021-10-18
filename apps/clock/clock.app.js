@@ -26,7 +26,7 @@ var SCREENACCESS = {
   request:function(){
     this.withApp=false;
     stopdraw();
-    this.alertTO = setTimeout(()=>{load("launch.js");},600000);
+    this.alertTO = setTimeout(()=>{load("dtlaunch.app.js");},600000);
   },
   release:function(){
     this.withApp=true;

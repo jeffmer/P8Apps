@@ -1,12 +1,12 @@
 E.showMenu = function(items) {
-    var pal = new Uint16Array([0x0000,0x000F,0x03FF,0xFFFF]);
+    var pal = new Uint16Array([0x0000,0xFFFF]);
     var b = P8.buffer;
     if (!b) {
-         b = Graphics.createArrayBuffer(240,180,2,{msb:true});
+         b = Graphics.createArrayBuffer(240,180,1,{msb:true});
          P8.buffer = b;
     } else b.clear();
     var flip = function(){
-      g.drawImage({width:240,height:180,bpp:2,buffer:b.buffer,palette:pal},0,20);
+      g.drawImage({width:240,height:180,bpp:1,buffer:b.buffer,palette:pal},0,20);
     }
     if (P8.buttons) {TC.removeListener("touch",P8.buttons); P8.buttons=undefined;}
     if (!items){ flip(); return; }
@@ -31,10 +31,10 @@ E.showMenu = function(items) {
     var y2 = options.y2||(b.getHeight()-1);
     if (options.title)
       y += options.fontHeight+2;
-    var cBg = 1; // background col
-    var cFg = 3; // foreground col
-    var cHighlightBg = 2;
-    var cHighlightFg = 3;
+    var cBg = 0; // background col
+    var cFg = 1; // foreground col
+    var cHighlightBg = 1;
+    var cHighlightFg = 0;
     var l = {
       draw : function() {
         b.reset();

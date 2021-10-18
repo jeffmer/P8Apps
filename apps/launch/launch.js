@@ -85,6 +85,6 @@ TC.on("touch",(p)=>{
         selected=-1;
     }
 });
- P8.loadWidgets();    
+//  P8.loadWidgets();    
 
 setTimeout(()=>{drawPage(0)},1000);

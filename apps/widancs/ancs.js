@@ -34,9 +34,6 @@ msg { "uid": 1,
   var ENABLED = s.settings.enabled;
   var CATEGORY = s.settings.category;
 
-  E.on("ANCS", (d)=>{getnotify(d);});
-  E.on("ANCSMSG", (m)=>{printmsg(m);});
-
   var notifyqueue = [];
   var current = {cat:0,uid:0};
   var msgTO = null;
@@ -78,11 +75,9 @@ msg { "uid": 1,
     }, 500);
   } 
 
-  function printmsg(m){
-
+  function displaymsg(m){
     if (msgTO) clearTimeout(msgTO); 
     var message = wordwrap(m.message);
-
     saveLast({ttl:m.title,msg:message});
     //we may already be displaying a prompt, so clear it
     E.showPrompt();
@@ -92,12 +87,12 @@ msg { "uid": 1,
     P8.buzz();
     if (current.cat!=1){
       E.showAlert(message,m.title).then(()=>{
-        NRF.sendANCSAction(current.uid,0);
+        NRF.ancsAction(current.uid,0);
         release_screen();
       });
     } else {
       E.showPrompt(message,{title:m.title,buttons:{"Accept":true,"Cancel":false}}).then((r)=>{
-        NRF.sendANCSAction(current.uid,r);
+        NRF.ancsAction(current.uid,r);
         release_screen();
       });
     }
@@ -118,16 +113,17 @@ msg { "uid": 1,
   }
 
   function next_notify(){
-      if(notifyqueue.length==0 || inalert) return;
-      inalert=true;
-      current = notifyqueue.pop();
-      NRF.requestANCSMessage(current.uid);
-      msgTO=setTimeout(()=>{
-               inalert=false;
-               msgTO=undefined;
-               next_notify();
-      },1000);
-  }
+    if(notifyqueue.length==0 || inalert) return;
+    inalert=true;
+    current = notifyqueue.pop();
+    NRF.ancsGetNotificationInfo(current.uid).then(
+      (m)=>{displaymsg(m);}
+    ).catch(function(e){
+      inalert = false;
+      next_notify();
+      E.showMessage("ANCS: "+e,"ERROR");
+    });
+}
 
   var stage = 0    
   //grey, pink, lightblue, yellow, green
@@ -139,24 +135,18 @@ msg { "uid": 1,
   }
     
   WIDGETS["ancs"] ={area:"tl", width:24,draw:draw};
-    
-  function drawIcon(id){
-    stage = id;
-    WIDGETS["ancs"].draw();
-  }
-
+  
   function changed(){
-    if (NRF.getSecurityStatus().connected)
-      drawIcon(4);
-    else
-      drawIcon(1);
+    stage = NRF.getSecurityStatus().connected ? 4 : 3;
+    WIDGETS["ancs"].draw();
   }
   
   if (ENABLED && typeof SCREENACCESS!='undefined') {
+    E.on("ANCS", getnotify);
     NRF.on('connect',changed);
     NRF.on('disconnect',changed);
     NRF.setServices({},{ancs:true});
-    changed();
+    stage = NRF.getSecurityStatus().connected ? 4 : 3;
     saveLast(  {ttl:'',msg:'NONE'});
     TC.on('swipe',(d)=>{
       if (!SCREENACCESS.withApp && d==TC.UP) {

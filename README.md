@@ -1,3 +1,6 @@
+# Replaced by jeffmer/WatchApps - will be deleted by end of 2021.
+
+
 # P8 Espruino - Execution Environment and Apps
 
 
